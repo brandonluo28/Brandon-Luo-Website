@@ -34,10 +34,13 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build static site
-        run: pnpm run build
       - name: Configure Pages
+        id: pages
         uses: actions/configure-pages@v5
+      - name: Build static site
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: pnpm run build
       - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
