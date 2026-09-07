@@ -13,7 +13,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function AssetImage({ src, alt }: { src: string; alt: string }) {
-  return <img src={`/assets/${src}`} alt={alt} width="2000" height="1500"/>;
+  return <img src={`/assets/${src}`} alt={alt} loading="lazy" decoding="async"/>;
+}
+
+function ToolsCard({ skills }: { skills: string[] }) {
+  return <section className="tools-card"><p className="detail-label">COMPONENT LIBRARY</p><h2>Tools &amp; systems</h2><div className="detail-tags">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>;
 }
 
 export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -43,19 +47,23 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
       {item.stats && <section className="detail-stats" aria-label="Key results">{item.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>}
 
       <div className="detail-body">
-        <section className="detail-findings" aria-labelledby="details-heading">
-          <p className="detail-label">SIGNAL PATH / 01</p>
-          <h2 id="details-heading">What I worked on</h2>
+        {item.projectSections ? <div className="project-sections" aria-label="Personal project details">
+          {item.projectSections.map((project) => <section className="project-section" key={project.title}>
+            <p className="detail-label">{project.eyebrow}</p><h2>{project.title}</h2><p className="project-summary">{project.summary}</p>
+            <ul>{project.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
+          </section>)}
+        </div> : <section className="detail-findings" aria-labelledby="details-heading">
+          <p className="detail-label">SIGNAL PATH / 01</p><h2 id="details-heading">What I worked on</h2>
           <ol>{item.bullets.map((bullet, bulletIndex) => <li key={bullet}><span>{String(bulletIndex + 1).padStart(2,'0')}</span><p>{bullet}</p></li>)}</ol>
-        </section>
+        </section>}
         <aside className="detail-sidebar">
           {item.context && <section className="context-card"><p className="detail-label">BOARD CONTEXT</p><h2>The larger system</h2><p>{item.context}</p>{item.sourceLinks && <div className="source-links">{item.sourceLinks.map((source)=><a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a>)}</div>}</section>}
-          <section><p className="detail-label">COMPONENT LIBRARY</p><h2>Tools &amp; systems</h2><div className="detail-tags">{item.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>
+          {slug !== 'the-hive' && <ToolsCard skills={item.skills}/>}
         </aside>
       </div>
 
-      {item.image && slug !== 'spacex' && <section className="detail-media" aria-label={`${item.shortTitle} image`}>
-        <div className="detail-media-copy"><p className="detail-label">FIELD VIEW / 02</p><h2>In context.</h2><p>A closer look at the people, hardware, and places behind this part of the schematic.</p></div>
+      {item.image && !['spacex','about-me','the-hive'].includes(slug) && <section className={`detail-media detail-media-${slug}`} aria-label={`${item.shortTitle} image`}>
+        <div className="detail-media-copy"><p className="detail-label">FIELD VIEW / 02</p><h2>{item.mediaTitle || 'In context.'}</h2><p>{item.mediaText || 'A closer look at the people, hardware, and places behind this part of the schematic.'}</p></div>
         <figure><AssetImage src={item.image} alt={item.imageAlt || ''}/><figcaption>{item.imageCaption}</figcaption></figure>
       </section>}
 
@@ -66,16 +74,27 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
       </section>}
 
       {slug === 'beta-technologies' && <section className="hardware-gallery" aria-labelledby="gallery-title">
-        <div><p className="detail-label">FABRICATED HARDWARE / 02</p><h2 id="gallery-title">From layout to bench.</h2></div>
-        <figure><AssetImage src="angle-of-attack-side-b.webp" alt="Opposite side of the Angle of Attack sensor PCB"/><figcaption>ANGLE OF ATTACK SENSOR PCB / SIDE B</figcaption></figure>
-        <figure><AssetImage src="interface-board.webp" alt="Avionics interface board with multiple test connectors"/><figcaption>AVIONICS INTERFACE BOARD</figcaption></figure>
+        <div className="hardware-gallery-copy"><p className="detail-label">FABRICATED HARDWARE / 03</p><h2 id="gallery-title">From layout to bench.</h2></div>
+        <div className="hardware-gallery-grid">
+          <figure><AssetImage src="angle-of-attack-side-a.webp" alt="Top view of the Angle of Attack sensor PCB"/><figcaption>ANGLE OF ATTACK SENSOR PCB / TOP VIEW</figcaption></figure>
+          <figure><AssetImage src="angle-of-attack-side-b.webp" alt="Opposite side of the Angle of Attack sensor PCB"/><figcaption>ANGLE OF ATTACK SENSOR PCB / SIDE B</figcaption></figure>
+          <figure><AssetImage src="interface-board.webp" alt="Avionics interface board with multiple test connectors"/><figcaption>AVIONICS INTERFACE BOARD</figcaption></figure>
+        </div>
       </section>}
 
       {slug === 'about-me' && <section className="about-gallery" aria-labelledby="about-gallery-title">
-        <div><p className="detail-label">OFF THE BENCH / 02</p><h2 id="about-gallery-title">Seattle roots. Always exploring.</h2><p>Whether it is a backpacking trip, a late-night game of chess, or a new circuit on the bench, I like learning by getting immersed in the thing itself.</p></div>
-        <figure><AssetImage src="seattle.webp" alt="Downtown Seattle at night during a public celebration"/><figcaption>SEATTLE, WASHINGTON / HOME</figcaption></figure>
-        <figure><AssetImage src="montana-camp.webp" alt="Friends gathered around a campfire during a backpacking trip"/><figcaption>BACKPACKING / MONTANA</figcaption></figure>
-        <figure><AssetImage src="friends.webp" alt="Brandon with friends at Georgia Tech"/><figcaption>GEORGIA TECH / COMMUNITY</figcaption></figure>
+        <div className="about-gallery-copy"><p className="detail-label">OFF THE BENCH / 02</p><h2 id="about-gallery-title">Seattle roots. Always exploring.</h2><p>Whether it is a backpacking trip, a late-night game of chess, or a new circuit on the bench, I like learning by getting immersed in the thing itself.</p></div>
+        <div className="about-gallery-stack">
+          <figure><AssetImage src="seattle.webp" alt="Downtown Seattle at night during a public celebration"/><figcaption>SEATTLE, WASHINGTON / HOME</figcaption></figure>
+          <figure><AssetImage src="montana-camp.webp" alt="Friends gathered around a campfire during a backpacking trip"/><figcaption>BACKPACKING / MONTANA</figcaption></figure>
+          <figure><AssetImage src="friends.webp" alt="Brandon with friends at Georgia Tech"/><figcaption>GEORGIA TECH / COMMUNITY</figcaption></figure>
+        </div>
+        <figure className="about-portrait"><AssetImage src="brandon-portrait.webp" alt="Brandon Luo outdoors beside a rocky coastline"/><figcaption>BRANDON / OFF THE BENCH</figcaption></figure>
+      </section>}
+
+      {slug === 'the-hive' && <section className="hive-tools-row" aria-label="The Hive workspace and tools">
+        <figure><AssetImage src="hive-benchtops.jpg" alt="Students working at electronics benchtops inside The Hive at Georgia Tech"/><figcaption>THE HIVE ELECTRONICS BENCHTOPS / PHOTO: GEORGIA TECH</figcaption></figure>
+        <ToolsCard skills={item.skills}/>
       </section>}
 
       <nav className="detail-pagination" aria-label="Portfolio pages"><a href={`/work/${previous.slug}/`}><small>PREVIOUS NODE</small><span>← {previous.shortTitle}</span></a><a href={`/work/${next.slug}/`}><small>NEXT NODE</small><span>{next.shortTitle} →</span></a></nav>

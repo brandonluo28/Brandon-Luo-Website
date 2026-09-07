@@ -14,6 +14,9 @@ export type PortfolioItem = {
   image?: string;
   imageAlt?: string;
   imageCaption?: string;
+  mediaTitle?: string;
+  mediaText?: string;
+  projectSections?: { eyebrow: string; title: string; summary: string; bullets: string[] }[];
   sourceLinks?: { label: string; url: string }[];
   x: number;
   y: number;
@@ -25,7 +28,7 @@ export const portfolioItems: PortfolioItem[] = [
     slug: 'beta-technologies', ref: 'U1', shortTitle: 'BETA Technologies', title: 'BETA Technologies',
     eyebrow: 'FLIGHT COMPUTER & CONTROLS', role: 'PCB Design Intern', period: 'May - Aug 2026',
     summary: 'Designed the sensing, communications, and test hardware around flight computers.',
-    context: 'BETA designs and manufactures all-electric ALIA aircraft in VTOL and conventional takeoff configurations. The ALIA platform combines a 50-foot wingspan, 200 cubic feet of cargo capacity, and a demonstrated range of 336 nautical miles.',
+    context: 'BETA Technologies is advancing electric aviation through its ALIA CTOL and VTOL aircraft and an integrated ecosystem of motors, flight controls, batteries, and charging infrastructure. UPS has committed to purchase 10 ALIA aircraft, with options for up to 150, while Amazon has invested in BETA and hosted an ALIA test flight between Amazon Air hubs. BETA also supplies electric pusher motors to Eve Air Mobility and flight-control computers and software to Horizon Aircraft.',
     bullets: [
       'Designed and laid out galvanically isolated, dissimilar flight computer modules in Altium and KiCad: Angle of Attack and Weight on Wheels sensors, plus Ethernet, CAN FD, RS-422, and ARINC 429 transceivers.',
       'Analyzed PHY specifications and characteristic impedances to design a functioning gigabit Ethernet transceiver circuit.',
@@ -38,20 +41,20 @@ export const portfolioItems: PortfolioItem[] = [
     stats: [{ value: '+/-0.2°', label: 'AOA sensor accuracy' }, { value: '3 us', label: 'protection shutdown' }, { value: '-40 to 120 C', label: 'operating range' }],
     skills: ['Altium Designer', 'KiCad', 'LTspice', 'Ethernet', 'CAN FD', 'RS-422', 'ARINC 429', 'Mixed-signal design'],
     image: 'beta-alia.webp', imageAlt: 'BETA Technologies ALIA electric aircraft in UPS livery', imageCaption: 'ALIA VTOL / BETA TECHNOLOGIES',
-    sourceLinks: [{ label: 'BETA aircraft specifications', url: 'https://beta.team/aircraft' }], x: 29, y: 25
+    mediaTitle: 'ALIA in flight.', mediaText: 'BETA’s aircraft sit inside a broader electric-aviation platform that connects propulsion, controls, energy storage, and charging infrastructure.',
+    sourceLinks: [{ label: 'BETA and UPS', url: 'https://about.ups.com/ae/en/newsroom/press-releases/innovation-driven/ups-flight-forward-adds-new-aircraft.html' }, { label: 'BETA and Amazon', url: 'https://www.aboutamazon.com/news/sustainability/beta-technologies-receives-new-funding-from-the-climate-pledge-fund' }, { label: 'BETA and Eve Air Mobility', url: 'https://investors.beta.team/news-events/press-releases/detail/93/eve-air-mobility-selects-beta-technologies-as-pusher-motor-supplier' }, { label: 'BETA and Horizon Aircraft', url: 'https://investors.beta.team/news-events/press-releases/detail/107/horizon-aircraft-selects-beta-technologies-advanced-flight-control-computers-and-software-for-the-cavorite-x7' }], x: 29, y: 25
   },
   {
     slug: 'spacex', ref: 'U2', shortTitle: 'SpaceX', title: 'SpaceX',
     eyebrow: 'STARLINK AVIONICS', role: 'Avionics Engineering Intern', period: 'Jan - Apr 2026',
-    summary: 'Worked across flight-readiness testing, harness design, and precision manufacturing automation.',
-    context: 'My internship work supported Starlink V3, SpaceX’s next-generation satellite platform. SpaceX says each V3 satellite is designed for 1 Tbps of downlink and 160 Gbps of uplink capacity, with 2,048 beams in each direction, upgraded phased-array antennas, next-generation beamforming chips, and solar arrays producing roughly twice the power of V2. Designed for Starship deployment, V3 is expected to add more than 20 times the network capacity of a current Falcon 9 V2 launch.',
+    summary: 'Worked across flight-readiness testing, harness design, and precision manufacturing automation, including a four-minute fiber termination process.',
+    context: 'My internship work supported Starlink V3, SpaceX’s next-generation satellite platform. Each V3 satellite is designed for 1 Tbps of downlink and 160 Gbps of uplink capacity, with 2,048 beams in each direction, upgraded phased-array antennas, next-generation beamforming chips, and solar arrays producing roughly twice the power of V2. Designed for Starship deployment, V3 is expected to add more than 20 times the network capacity of a current Falcon 9 V2 launch.',
     bullets: [
       'Designed and routed copper and fiber-optic harnesses for power and data using Siemens NX on a fast-paced timeline.',
       'Validated high-voltage PCBs for flight readiness through in-circuit and functional load testing, establishing tolerances.',
       'Engineered an automated, micron-accurate fiber-optic termination machine using LabVIEW, .NET/C#, and RS-232.',
       'Implemented custom edge-detection algorithms and a dedicated GUI to reach a four-minute termination cycle.'
     ],
-    stats: [{ value: '1 Tbps', label: 'V3 downlink capacity' }, { value: '160 Gbps', label: 'V3 uplink capacity' }, { value: '4 min', label: 'fiber termination cycle' }],
     skills: ['Starlink V3', 'LabVIEW', '.NET / C#', 'RS-232', 'Siemens NX', 'PCB validation', 'Fiber optics'],
     image: 'starlink-exterior.webp', imageAlt: 'Starlink production facility in Redmond, Washington during winter', imageCaption: 'STARLINK PRODUCTION / REDMOND, WASHINGTON',
     sourceLinks: [{ label: 'Starlink: Version 3 satellites', url: 'https://starlink.com/updates/starlink-version-3-satellites' }, { label: 'SpaceX: V3 and Starship updates', url: 'https://new.spacex.com/updates' }], x: 50, y: 25
@@ -60,9 +63,9 @@ export const portfolioItems: PortfolioItem[] = [
     slug: 'about-me', ref: 'U3', shortTitle: 'About Me', title: 'Brandon Luo',
     eyebrow: 'ABOUT ME', role: 'Electrical and Computer Engineering', period: 'Georgia Tech 2028',
     summary: 'An engineer from Seattle who likes building circuits, hiking farther than planned, playing guitar, and thinking a few moves ahead over a chessboard.',
-    context: 'My interest in electrical engineering started with Arduino projects in high school. At Georgia Tech, that curiosity has grown into custom PCBs, flight hardware, embedded control systems, and processors I design and write myself.',
     bullets: [
       'From Seattle, Washington; currently studying Electrical and Computer Engineering at Georgia Tech.',
+      'My path into electrical engineering started with Arduino projects in high school and now includes custom PCBs, flight hardware, embedded control systems, and processors I design and write myself.',
       'I like hiking and backpacking, including trips into Montana.',
       'Outside the lab I play guitar and chess.',
       'I maintain a 4.0 GPA and was selected as one of 50 Stamps President’s Scholars with a full-ride merit scholarship.',
@@ -86,6 +89,7 @@ export const portfolioItems: PortfolioItem[] = [
     stats: [{ value: '2019', label: 'first YJSP launch' }, { value: '1.5 km', label: 'GoldiLOX apogee' }, { value: '900 lbf', label: 'GoldiLOX thrust' }],
     skills: ['Power distribution', 'Active cell balancing', 'Hardware-in-the-loop', 'Signal integrity', 'Sensor integration'],
     image: 'yjsp-avionics.webp', imageAlt: 'YJSP avionics and wiring installed inside a rocket airframe', imageCaption: 'YJSP AVIONICS STACK / VEHICLE INTEGRATION',
+    mediaTitle: 'The avionics stack.', mediaText: 'The YJSP avionics stack integrates multiple purpose-built PCBs, including the Battery Management System, Flight Computer, and Recovery Board, into one flight-ready assembly.',
     sourceLinks: [{ label: 'Georgia Tech: GoldiLOX launch', url: 'https://news.gatech.edu/features/2023/01/after-milestone-launch-yellow-jacket-space-program-shooting-stars' }, { label: 'YJSP: TIAT first launch', url: 'https://yjsp-gt.squarespace.com/tiat-old' }], x: 27, y: 74
   },
   {
@@ -100,7 +104,25 @@ export const portfolioItems: PortfolioItem[] = [
       'Achieved +/-10 feet accuracy around an 820-foot target by actuating drag flaps according to a PID algorithm.'
     ],
     stats: [{ value: '820 ft', label: 'target altitude' }, { value: '+/-10 ft', label: 'achieved accuracy' }],
-    skills: ['C++', 'CircuitPython', 'PID control', 'Teensy 4.0', 'IMU feedback', '3D printing'], x: 48, y: 74
+    skills: ['C++', 'CircuitPython', 'PID control', 'Teensy 4.0', 'IMU feedback', '3D printing'],
+    projectSections: [
+      {
+        eyebrow: 'PROJECT 01 / ATTITUDE CONTROL', title: 'Thrust Vectoring Monocopter',
+        summary: 'A single-rotor aircraft that actively counters angular momentum to stabilize its attitude.',
+        bullets: [
+          'Wrote a C++ PID control system using MPU6050 IMU feedback to command dynamic thrust-vector corrections.',
+          'Integrated a Teensy 4.0, HC-05 Bluetooth module, RS2205 motor, 4S LiPo battery, servos, and custom 3D-printed parts.'
+        ]
+      },
+      {
+        eyebrow: 'PROJECT 02 / APOGEE CONTROL', title: 'Active-Control Airbrake Rocket',
+        summary: 'A deployable drag system that adjusts the rocket’s trajectory toward a commanded apogee.',
+        bullets: [
+          'Designed, wired, programmed, and 3D-printed the complete system around CircuitPython, an Adafruit Feather Sense, servos, and a LiPo battery.',
+          'Reached +/-10 feet accuracy around an 820-foot target by actuating drag flaps with a PID algorithm.'
+        ]
+      }
+    ], x: 48, y: 74
   },
   {
     slug: 'the-hive', ref: 'U6', shortTitle: 'The Hive', title: 'The Hive Makerspace',
@@ -113,7 +135,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Help sustain a student-led, low-pressure environment where students from any major can prototype and learn safely.'
     ],
     stats: [{ value: '15,000 ft²', label: 'student-run makerspace' }, { value: '24', label: 'electronics benches' }],
-    skills: ['Oscilloscopes', 'Waveform generators', 'PCB fabrication', 'Laser cutting', 'Technical instruction'],
+    skills: ['Oscilloscopes', 'Waveform generators', 'PCB fabrication', 'Machine tools', 'Resin 3D printers', 'Plastic 3D printers', 'Embedded hardware', 'Digital multimeters', 'Soldering', 'Laser cutting', 'Technical instruction'],
     image: 'hive-benchtops.jpg', imageAlt: 'Students working at electronics benchtops inside The Hive at Georgia Tech', imageCaption: 'THE HIVE ELECTRONICS BENCHTOPS / PHOTO: GEORGIA TECH',
     sourceLinks: [{ label: 'The Hive: About', url: 'https://hive.ece.gatech.edu/about/' }, { label: 'The Hive: Tools', url: 'https://hive.ece.gatech.edu/explore/' }, { label: 'Georgia Tech makerspaces', url: 'https://coe.gatech.edu/academics/makerspaces' }], x: 68, y: 74
   }

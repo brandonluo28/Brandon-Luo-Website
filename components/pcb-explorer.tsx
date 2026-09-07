@@ -16,15 +16,15 @@ const symbolLayouts: Record<string, SymbolLayout> = {
 };
 
 const activePaths: Record<string, string> = {
-  'beta-technologies': 'M90 115H170M90 135H170',
-  spacex: 'M90 205H120M160 205H450V115H470M90 225H160M200 225H460V135H470',
-  'about-me': 'M90 245H850M90 275H850M90 305H850M90 335H850',
-  'yellow-jacket-space-program': 'M90 395H245V420M90 415H295V420',
-  'personal-projects': 'M90 395H495V420M90 415H545V420',
-  'the-hive': 'M90 395H750V420M90 415H800V420'
+  'beta-technologies': 'M105 115H170M105 135H170',
+  spacex: 'M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470',
+  'about-me': 'M105 245H850M105 275H850M105 305H850M105 335H850',
+  'yellow-jacket-space-program': 'M105 395H245V420M105 415H295V420',
+  'personal-projects': 'M105 395H495V420M105 415H545V420',
+  'the-hive': 'M105 395H750V420M105 415H800V420'
 };
 
-const ROUTE_ANIMATION_MS = 1250;
+const ROUTE_NAVIGATION_MS = 650;
 
 function NoConnect({ x, y }: { x: number; y: number }) {
   return <g className="no-connect"><path d={`M${x-5} ${y-5}L${x+5} ${y+5}M${x+5} ${y-5}L${x-5} ${y+5}`}/></g>;
@@ -53,9 +53,9 @@ function VerticalResistor({ x, y, refName, labelSide = 'right' }: { x: number; y
 function Connector() {
   const pins = [115,135,205,225,245,275,305,335,395,415];
   return <g className="svg-connector">
-    <rect x="32" y="82" width="38" height="362"/>
-    <text x="51" y="69" textAnchor="middle">J1</text>
-    {pins.map((y, index) => <g key={y}><path d={`M60 ${y}H90`}/><text x="55" y={y - 3} textAnchor="end">{index + 1}</text></g>)}
+    <rect x="45" y="82" width="38" height="362"/>
+    <text x="64" y="69" textAnchor="middle">J1</text>
+    {pins.map((y, index) => <g key={y}><path d={`M73 ${y}H105`}/><text x="68" y={y - 3} textAnchor="end">{index + 1}</text></g>)}
   </g>;
 }
 
@@ -70,6 +70,7 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
   const noConnectYs = isBottomBusDevice ? [layout.cy - 15] : [layout.cy - 10, layout.cy + 10];
   const canPinXs = item.slug === 'yellow-jacket-space-program' ? [245,295] : item.slug === 'personal-projects' ? [495,545] : [750,800];
   const topSupplyPinXs = [layout.cx - 30, layout.cx + 30];
+  const topConnectedPinNumber = connectedLeftPinYs.length + noConnectYs.length + 1;
   const rightGroundX = right + 20;
   const rightGroundY = layout.cy + 15;
 
@@ -84,16 +85,16 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
     <text className="ic-title" x={layout.cx} y={layout.cy - (layout.titleLines.length - 1) * 8} textAnchor="middle">{layout.titleLines.map((line,index)=><tspan key={line} x={layout.cx} dy={index ? 18 : 0}>{line}</tspan>)}</text>
 
     {connectedLeftPinYs.map((y,index)=><g className="ic-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
-    {noConnectYs.map((y,index)=><g className="ic-pin" key={`nc-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{index + 5}</text><NoConnect x={right+20} y={y}/></g>)}
+    {noConnectYs.map((y,index)=><g className="ic-pin" key={`nc-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{isBottomBusDevice ? 5 : connectedLeftPinYs.length + index + 1}</text><NoConnect x={right+20} y={y}/></g>)}
 
     {isBottomBusDevice ? <>
-      <g className="ic-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>9</text></g>
-      <g className="ic-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>10</text></g>
-      <g className="ic-pin"><path d={`M${layout.cx} ${bottom}V568`}/><text x={layout.cx+4} y={bottom-5}>11</text></g>
-      <g className="ic-pin"><path d={`M${right} ${rightGroundY}H${rightGroundX}`}/><text x={right-5} y={rightGroundY-3} textAnchor="end">12</text></g>
+      <g className="ic-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>1</text></g>
+      <g className="ic-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>2</text></g>
+      <g className="ic-pin"><path d={`M${layout.cx} ${bottom}V560`}/><text x={layout.cx+4} y={bottom-5}>3</text></g>
+      <g className="ic-pin"><path d={`M${right} ${rightGroundY}H${rightGroundX}`}/><text x={right-5} y={rightGroundY-3} textAnchor="end">4</text></g>
     </> : <>
-      <g className="ic-pin"><path d={`M${topSupplyPinXs[0]} ${top-20}V${top}`}/><text x={topSupplyPinXs[0]+5} y={top+12}>9</text></g>
-      <g className="ic-pin"><path d={`M${topSupplyPinXs[1]} ${top-20}V${top}`}/><text x={topSupplyPinXs[1]+5} y={top+12}>10</text></g>
+      <g className="ic-pin"><path d={`M${topSupplyPinXs[0]} ${top-20}V${top}`}/><text x={topSupplyPinXs[0]+5} y={top+12}>{topConnectedPinNumber}</text></g>
+      <g className="ic-pin"><path d={`M${topSupplyPinXs[1]} ${top-14}V${top}`}/><text x={topSupplyPinXs[1]+5} y={top+12}>{topConnectedPinNumber + 1}</text></g>
     </>}
 
     {hovered && <g className="svg-tooltip" transform={`translate(${layout.cx} ${top-48})`}>
@@ -112,19 +113,18 @@ export function PcbExplorer() {
   const openItem = (item: PortfolioItem) => {
     if (active) return;
     setActive(item.slug);
-    window.setTimeout(() => router.push(`/work/${item.slug}/`), ROUTE_ANIMATION_MS);
+    router.prefetch(`/work/${item.slug}/`);
+    window.setTimeout(() => router.push(`/work/${item.slug}/`), ROUTE_NAVIGATION_MS);
   };
 
   return <main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
     <header className="pcb-topbar schematic-topbar">
-      <a href="/" className="schematic-brand"><span>BL-PORTFOLIO-28</span><small>INTERACTIVE ENGINEERING SCHEMATIC</small></a>
-      <p><span className="live-dot"/>SCHEMATIC <b>REV 4.4</b></p>
+      <a href="/" className="pcb-brand schematic-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
+      <p><span className="live-dot"/>SCHEMATIC <b>REV 8.8</b></p>
       <div className="board-links"><a href="mailto:brandonluo@gatech.edu">CONTACT</a><a href="/Brandon-Luo-Resume.pdf" target="_blank" rel="noreferrer">RESUME ↗</a></div>
     </header>
 
-    <section className="pcb-workbench schematic-workbench" aria-labelledby="board-title">
-      <div className="bench-copy schematic-copy"><p className="overline">PORTFOLIO / TOP LEVEL</p><h1 id="board-title">Brandon Luo</h1><p>Hover over and select a component.</p></div>
-
+    <section className="pcb-workbench schematic-workbench" aria-label="Interactive portfolio schematic">
       <div className="board-stage schematic-stage">
         <div className="schematic-sheet">
           <div className="sheet-zones" aria-hidden="true"><span className="zone-a">A</span><span className="zone-b">B</span><span className="zone-c">C</span><span className="zone-d">D</span></div>
@@ -132,46 +132,46 @@ export function PcbExplorer() {
 
           <div className="sheet-title-block">
             <div className="title-main"><small>TITLE</small><b>Brandon Luo</b><span>Electrical &amp; Computer Engineering</span></div>
-            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>4.4</span></div>
+            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>8.8</span></div>
             <div><small>SHEET</small><span>1 / 1</span></div><div><small>GRAD</small><span>2028</span></div>
           </div>
 
-          <svg className="schematic-drawing" viewBox="0 0 1200 640" preserveAspectRatio="none" aria-label="Interactive top-level portfolio schematic">
+          <svg className="schematic-drawing" viewBox="0 0 1280 660" preserveAspectRatio="none" aria-label="Interactive top-level portfolio schematic">
             <Connector/>
 
             <g className="signal-nets">
-              <path d="M90 115H170M90 135H170"/>
-              <path d="M90 205H120M160 205H450V115H470M90 225H160M200 225H460V135H470"/>
-              <HorizontalResistor x={140} y={205} refName="R1"/><HorizontalResistor x={180} y={225} refName="R2" labelSide/>
-              <text className="net-label" x="375" y="198">ETH_P</text><text className="net-label" x="375" y="242">ETH_N</text>
+              <path d="M105 115H170M105 135H170"/>
+              <path d="M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470"/>
+              <HorizontalResistor x={150} y={205} refName="R1"/><HorizontalResistor x={195} y={225} refName="R2" labelSide/>
+              <text className="net-label" x="375" y="198">ETH_P</text><text className="net-label" x="375" y="218">ETH_N</text>
 
-              <path d="M90 245H850M90 275H850M90 305H850M90 335H850"/>
+              <path d="M105 245H850M105 275H850M105 305H850M105 335H850"/>
               <text className="net-label" x="760" y="238">SCLK</text><text className="net-label" x="760" y="268">MOSI</text><text className="net-label" x="760" y="298">MISO</text><text className="net-label" x="760" y="328">CS</text>
 
-              <path d="M90 395H930M90 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
+              <path d="M105 395H930M105 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
               <VerticalResistor x={930} y={405} refName="R3" labelSide="left"/>
               <text className="net-label" x="840" y="389">CAN_H</text><text className="net-label" x="840" y="432">CAN_L</text>
             </g>
 
             <g className="support-circuits">
-              <path className="wire" d="M240 75V37H380M300 75V73H380M540 75V37H700M600 75V73H700"/>
-              <PowerSymbol x={240} y={37} label="5V"/><Capacitor x={380} y={55} refName="C1"/><GroundSymbol x={380} y={85}/>
-              <PowerSymbol x={540} y={37} label="3V3"/><Capacitor x={700} y={55} refName="C2"/><GroundSymbol x={700} y={85}/>
+              <path className="wire" d="M240 75V45H380M300 81H380M540 75V45H700M600 81H700"/>
+              <PowerSymbol x={240} y={45} label="5V"/><Capacitor x={380} y={63} refName="C1"/><GroundSymbol x={380} y={93}/>
+              <PowerSymbol x={540} y={45} label="3V3"/><Capacitor x={700} y={63} refName="C2"/><GroundSymbol x={700} y={93}/>
 
-              <path className="wire" d="M940 198V160H1110M1000 198V196H1110"/>
-              <PowerSymbol x={940} y={160} label="3V3"/><Capacitor x={1110} y={178} refName="C3"/><GroundSymbol x={1110} y={208}/>
+              <path className="wire" d="M940 198V168H1110M1000 204H1110"/>
+              <PowerSymbol x={940} y={168} label="3V3"/><Capacitor x={1110} y={186} refName="C3"/><GroundSymbol x={1110} y={216}/>
 
-              <path className="wire" d="M130 568H835M375 505V538M620 505V538M880 505V538"/>
-              <PowerSymbol x={130} y={568} label="5V"/>
-              <Capacitor x={330} y={586} refName="C4"/><GroundSymbol x={330} y={616}/>
-              <Capacitor x={580} y={586} refName="C5"/><GroundSymbol x={580} y={616}/>
-              <Capacitor x={835} y={586} refName="C6"/><GroundSymbol x={835} y={616}/>
-              <GroundSymbol x={375} y={550}/><GroundSymbol x={620} y={550}/><GroundSymbol x={880} y={550}/>
+              <path className="wire" d="M130 560H835M375 505V530M620 505V530M880 505V530"/>
+              <PowerSymbol x={130} y={560} label="5V"/>
+              <Capacitor x={330} y={578} refName="C4"/><GroundSymbol x={330} y={608}/>
+              <Capacitor x={580} y={578} refName="C5"/><GroundSymbol x={580} y={608}/>
+              <Capacitor x={835} y={578} refName="C6"/><GroundSymbol x={835} y={608}/>
+              <GroundSymbol x={375} y={542}/><GroundSymbol x={620} y={542}/><GroundSymbol x={880} y={542}/>
             </g>
 
             <g className="active-nets"><defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
 
-            {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>setHovered(value ? item.slug : null)}/>)}
+            {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) router.prefetch(`/work/${item.slug}/`);}}/>)}
           </svg>
         </div>
       </div>
