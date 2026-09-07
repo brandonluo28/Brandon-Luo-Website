@@ -5,12 +5,12 @@ import { useState } from 'react';
 import { portfolioItems, type PortfolioItem } from '@/lib/portfolio';
 
 const activePaths: Record<string, string> = {
-  'beta-technologies': 'M66 126 H156 V160 H290',
-  spacex: 'M66 186 H220 V160 H500',
-  'about-me': 'M66 274 H630 V307 H790',
-  'yellow-jacket-space-program': 'M66 470 H170 V474 H270',
-  'personal-projects': 'M66 494 H300 V474 H480',
-  'the-hive': 'M66 518 H510 V474 H680'
+  'beta-technologies': 'M66 140 H210',
+  spacex: 'M66 210 H380 V140 H420',
+  'about-me': 'M66 250 H690',
+  'yellow-jacket-space-program': 'M66 400 H260 V418',
+  'personal-projects': 'M66 400 H470 V418',
+  'the-hive': 'M66 400 H670 V418'
 };
 
 function IcSymbol({ item }: { item: PortfolioItem }) {
@@ -29,32 +29,24 @@ function IcSymbol({ item }: { item: PortfolioItem }) {
   </span>;
 }
 
-function CapacitorSymbol({ refName, x, y }: { refName: string; x: number; y: number }) {
-  return <span className="schematic-passive capacitor-symbol" style={{ left: `${x}%`, top: `${y}%` }}>
-    <svg viewBox="0 0 72 34" aria-hidden="true"><path d="M0 17H28M28 5V29M44 5V29M44 17H72"/></svg><b>{refName}</b>
-  </span>;
+function GroundSymbol({ x, y }: { x: number; y: number }) {
+  return <g className="ground-symbol" transform={`translate(${x} ${y})`}><path d="M0-12V0M-12 0H12M-8 5H8M-4 10H4"/></g>;
 }
 
-function ResistorSymbol({ refName, x, y, note }: { refName: string; x: number; y: number; note?: string }) {
-  return <span className="schematic-passive resistor-symbol" style={{ left: `${x}%`, top: `${y}%` }}>
-    <svg viewBox="0 0 90 34" aria-hidden="true"><path d="M0 17H14L20 6L30 28L40 6L50 28L60 6L70 28L76 17H90"/></svg><b>{refName}</b>{note && <small>{note}</small>}
-  </span>;
+function PowerSymbol({ x, y, label }: { x: number; y: number; label: '3V3' | '5V' }) {
+  return <g className="power-symbol" transform={`translate(${x} ${y})`}><path d="M0 0V-12M-7-5L0-12L7-5"/><text x="0" y="-19" textAnchor="middle">+{label}</text></g>;
 }
 
-function PassiveSymbols() {
-  const capacitors = [
-    ['C1',24,11],['C2',43,11],['C3',62,12],['C4',88,31],['C5',88,62],['C6',16,88],['C7',40,88],['C8',61,87],['C9',73,61]
-  ] as const;
-  const resistors = [
-    ['R1',25,8],['R2',74,16],['R3',81,76],['R4',71,88],['R5',36,57],['R6',56,44]
-  ] as const;
-  return <>
-    {capacitors.map(([refName,x,y]) => <CapacitorSymbol key={refName} refName={refName} x={x} y={y}/>)}
-    {resistors.map(([refName,x,y]) => <ResistorSymbol key={refName} refName={refName} x={x} y={y}/>)}
-    <ResistorSymbol refName="R7" x={39} y={28} note="ETH TERM"/>
-    <ResistorSymbol refName="R8" x={15} y={76} note="CAN TERM"/>
-    <ResistorSymbol refName="R9" x={84} y={76} note="CAN TERM"/>
-  </>;
+function VerticalCapacitor({ x, y, refName }: { x: number; y: number; refName: string }) {
+  return <g className="capacitor-symbol" transform={`translate(${x} ${y})`}><path d="M0-18V-6M-12-6H12M-12 6H12M0 6V18"/><text x="17" y="3">{refName}</text></g>;
+}
+
+function HorizontalResistor({ x, y, refName }: { x: number; y: number; refName: string }) {
+  return <g className="resistor-symbol" transform={`translate(${x} ${y})`}><path d="M-36 0H-28L-22-10L-14 10L-6-10L2 10L10-10L18 10L24 0H36"/><text x="0" y="-15" textAnchor="middle">{refName}</text></g>;
+}
+
+function VerticalResistor({ x, y, refName }: { x: number; y: number; refName: string }) {
+  return <g className="resistor-symbol" transform={`translate(${x} ${y})`}><path d="M0-18V-14L-8-10L8-5L-8 0L8 5L-8 10L0 14V18"/><text x="12" y="3">{refName}</text></g>;
 }
 
 export function PcbExplorer() {
@@ -92,17 +84,44 @@ export function PcbExplorer() {
           <div className="schematic-connector" aria-hidden="true"><b>J1</b><span>PORTFOLIO NAV</span>{Array.from({length:10},(_,i)=><i key={i}><em>{i + 1}</em></i>)}</div>
 
           <svg className="signal-networks schematic-nets" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
-            <g className="network ethernet"><path d="M66 104H178V122H282l8-10 10 20 10-20 10 20 10-20 10 20 10-10H500V152"/><path d="M66 124H194V142H500V172"/><text x="342" y="96">ETH_TX+ / ETH_TX− · MATCHED PAIR</text></g>
-            <g className="network spi"><path d="M66 244H660V260H790"/><path d="M66 264H645V280H790"/><path d="M66 284H630V300H790"/><path d="M66 304H615V320H790"/><text x="470" y="235">SPI: SCLK / MOSI / MISO / CS</text></g>
-            <g className="network can"><path d="M66 462H790"/><path d="M66 486H790"/><path d="M270 462V474M270 486V482M480 462V474M480 486V482M680 462V474M680 486V482"/><text x="510" y="454">CAN_H</text><text x="510" y="510">CAN_L</text></g>
-            <g className="network beta"><path d="M66 72H148V126H290V152"/><path d="M66 88H166V142H275V152"/></g>
-            <g className="power"><path d="M242 74V48M432 74V48M622 78V48M844 198V170M844 398V425"/><text x="230" y="43">+3V3</text><text x="420" y="43">+3V3</text><text x="610" y="43">+3V3</text></g>
+            <g className="network beta"><path d="M66 140H210M66 160H210"/><text x="92" y="134">AOA_SENSE</text></g>
+
+            <g className="network ethernet">
+              <path d="M66 210H300M370 210H380V140H420M66 230H300M370 230H398V160H420"/>
+              <g className="resistor-symbol" transform="translate(335 210)"><path d="M-35 0H-24L-18-10L-9 10L0-10L9 10L18-10L24 0H35"/><text x="0" y="-15" textAnchor="middle">R1</text></g>
+              <g className="resistor-symbol" transform="translate(335 230)"><path d="M-35 0H-24L-18-10L-9 10L0-10L9 10L18-10L24 0H35"/><text x="0" y="19" textAnchor="middle">R2</text></g>
+              <text x="244" y="199">ETH_TX+ / ETH_TX−</text>
+            </g>
+
+            <g className="network spi"><path d="M66 250H690M66 270H690M66 290H690M66 310H690"/><text x="482" y="241">SPI: SCLK / MOSI / MISO / CS</text></g>
+
+            <g className="network can">
+              <path d="M66 400H790M66 420H790M260 400V418M280 420V418M470 400V418M490 420V418M670 400V418M690 420V418"/>
+              <g className="resistor-symbol vertical" transform="translate(118 410)"><path d="M0-10V-8L-9-5L9 0L-9 5L0 8V10"/><text x="14" y="3">R3</text></g>
+              <g className="resistor-symbol vertical" transform="translate(760 410)"><path d="M0-10V-8L-9-5L9 0L-9 5L0 8V10"/><text x="14" y="3">R4</text></g>
+              <text x="510" y="392">CAN_H</text><text x="510" y="438">CAN_L</text><text x="82" y="442">CAN TERMINATION</text>
+            </g>
+
+            <g className="support-circuits">
+              <path className="wire" d="M290 104V64H185V76M185 100V112M500 104V64H600V76M600 100V112M790 247V210H930V222M930 246V258"/>
+              <PowerSymbol x={290} y={64} label="5V"/><PowerSymbol x={500} y={64} label="3V3"/><PowerSymbol x={790} y={210} label="3V3"/>
+              <g className="capacitor-symbol" transform="translate(185 88)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C1</text></g>
+              <g className="capacitor-symbol" transform="translate(600 88)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C2</text></g>
+              <g className="capacitor-symbol" transform="translate(930 234)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C3</text></g>
+              <GroundSymbol x={185} y={124}/><GroundSymbol x={600} y={124}/><GroundSymbol x={930} y={270}/>
+
+              <path className="wire" d="M270 530V558H320V570M320 594V606M480 530V558H530V570M530 594V606M680 530V558H635V570M635 594V606"/>
+              <PowerSymbol x={270} y={558} label="5V"/><PowerSymbol x={480} y={558} label="3V3"/><PowerSymbol x={680} y={558} label="3V3"/>
+              <g className="capacitor-symbol" transform="translate(320 582)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C4</text></g>
+              <g className="capacitor-symbol" transform="translate(530 582)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C5</text></g>
+              <g className="capacitor-symbol" transform="translate(635 582)"><path d="M0-12V-6M-13-6H13M-13 6H13M0 6V12"/><text x="18" y="3">C6</text></g>
+              <GroundSymbol x={320} y={618}/><GroundSymbol x={530} y={618}/><GroundSymbol x={635} y={618}/>
+            </g>
           </svg>
 
           <svg className="board-traces schematic-active-nets" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</svg>
 
           {portfolioItems.map((item)=><button key={item.slug} type="button" className={`board-part schematic-part ${active===item.slug?'selected':''}`} style={{left:`${item.x}%`,top:`${item.y}%`}} aria-label={`Open ${item.shortTitle}`} onMouseEnter={()=>setHovered(item.slug)} onMouseLeave={()=>setHovered(null)} onFocus={()=>setHovered(item.slug)} onBlur={()=>setHovered(null)} onClick={()=>openItem(item)}><IcSymbol item={item}/><span className={`part-tooltip schematic-tooltip ${hovered===item.slug?'visible':''}`}><small>{item.ref} / OPEN SHEET</small><b>{item.shortTitle}</b><i>VIEW DETAILS →</i></span></button>)}
-          <PassiveSymbols/>
         </div>
       </div>
       <div className="board-legend schematic-legend"><span><i className="legend-line"/> SIGNAL NET</span><span><i className="legend-dot"/> CLICKABLE SUBSYSTEM</span><span>R = RESISTOR</span><span>C = CAPACITOR</span></div>

@@ -41,7 +41,7 @@ export const portfolioItems: PortfolioItem[] = [
     sourceLinks: [{ label: 'BETA aircraft specifications', url: 'https://beta.team/aircraft' }], x: 29, y: 25
   },
   {
-    slug: 'spacex', ref: 'U2', shortTitle: 'SpaceX / Starlink', title: 'SpaceX',
+    slug: 'spacex', ref: 'U2', shortTitle: 'SpaceX', title: 'SpaceX',
     eyebrow: 'STARLINK AVIONICS', role: 'Avionics Engineering Intern', period: 'Jan - Apr 2026',
     summary: 'Worked across flight-readiness testing, harness design, and precision manufacturing automation.',
     context: 'Starlink V2 Mini introduced more powerful phased-array antennas, E-band backhaul, and argon Hall thrusters. SpaceX reported roughly four times the capacity per satellite compared with earlier generations.',
@@ -103,7 +103,7 @@ export const portfolioItems: PortfolioItem[] = [
     skills: ['C++', 'CircuitPython', 'PID control', 'Teensy 4.0', 'IMU feedback', '3D printing'], x: 48, y: 74
   },
   {
-    slug: 'the-hive', ref: 'U6', shortTitle: 'The Hive / Peer Instructor', title: 'The Hive Makerspace',
+    slug: 'the-hive', ref: 'U6', shortTitle: 'The Hive', title: 'The Hive Makerspace',
     eyebrow: 'GEORGIA TECH', role: 'Peer Instructor', period: 'Feb 2026 - Present',
     summary: 'Helping Georgia Tech students turn ideas into working hardware in an electrical and computer engineering makerspace.',
     context: 'The Hive is Georgia Tech’s 15,000-square-foot Interdisciplinary Design Commons and the Institute’s largest student-run makerspace. Peer Instructors keep its equipment accessible and help students use 24 electronics benches, PCB fabrication tools, 3D printers, laser cutters, and machine-shop resources.',
