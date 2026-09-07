@@ -10,6 +10,7 @@ export type PortfolioItem = {
   context?: string;
   bullets: string[];
   stats?: { value: string; label: string }[];
+  statsTitle?: string;
   skills: string[];
   image?: string;
   imageAlt?: string;
@@ -38,6 +39,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Built a high-side overcurrent protection circuit for the AOA sensor with a three-microsecond shutdown time.',
       'Wrote and released PCB fabrication and assembly drawings for battery pack components submitted for FAA certification.'
     ],
+    statsTitle: 'Angle of Attack Board Stats',
     stats: [{ value: '+/-0.2°', label: 'AOA sensor accuracy' }, { value: '3 us', label: 'protection shutdown' }, { value: '-40 to 120 C', label: 'operating range' }],
     skills: ['Altium Designer', 'KiCad', 'LTspice', 'Ethernet', 'CAN FD', 'RS-422', 'ARINC 429', 'Mixed-signal design'],
     image: 'beta-alia.webp', imageAlt: 'BETA Technologies ALIA electric aircraft in UPS livery', imageCaption: 'ALIA VTOL / BETA TECHNOLOGIES',
@@ -71,6 +73,7 @@ export const portfolioItems: PortfolioItem[] = [
       'I maintain a 4.0 GPA and was selected as one of 50 Stamps President’s Scholars with a full-ride merit scholarship.',
       'Relevant coursework includes Circuit Analysis, Digital Design, and Programming Hardware/Software Systems.'
     ],
+    statsTitle: 'Academic & Personal Stats',
     stats: [{ value: '4.0', label: 'GPA' }, { value: '2028', label: 'expected graduation' }, { value: 'Seattle', label: 'home' }],
     skills: ['RISC-V', 'Python', 'Java', 'C++', 'PCB design', 'Embedded systems', 'Guitar', 'Chess'],
     image: 'brandon-portrait.webp', imageAlt: 'Brandon Luo outdoors beside a rocky coastline', imageCaption: 'BRANDON / OFF THE BENCH', x: 79, y: 48, size: 'large'
@@ -86,6 +89,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Building hardware-in-the-loop circuitry to test avionics systems against edge cases before fires and launches.',
       'Worked extensively with RTDs, pressure transducers, thermocouples, NTCs, load cells, and vibration sensors.'
     ],
+    statsTitle: 'Yellow Jacket Space Program Stats',
     stats: [{ value: '2019', label: 'first YJSP launch' }, { value: '1.5 km', label: 'GoldiLOX apogee' }, { value: '900 lbf', label: 'GoldiLOX thrust' }],
     skills: ['Power distribution', 'Active cell balancing', 'Hardware-in-the-loop', 'Signal integrity', 'Sensor integration'],
     image: 'yjsp-avionics.webp', imageAlt: 'YJSP avionics and wiring installed inside a rocket airframe', imageCaption: 'YJSP AVIONICS STACK / VEHICLE INTEGRATION',
@@ -103,7 +107,6 @@ export const portfolioItems: PortfolioItem[] = [
       'Active Control Airbrake Rocket: designed, wired, coded, and 3D-printed the complete system using CircuitPython, an Adafruit Feather Sense, servos, and a LiPo battery.',
       'Achieved +/-10 feet accuracy around an 820-foot target by actuating drag flaps according to a PID algorithm.'
     ],
-    stats: [{ value: '820 ft', label: 'target altitude' }, { value: '+/-10 ft', label: 'achieved accuracy' }],
     skills: ['C++', 'CircuitPython', 'PID control', 'Teensy 4.0', 'IMU feedback', '3D printing'],
     projectSections: [
       {
@@ -134,6 +137,7 @@ export const portfolioItems: PortfolioItem[] = [
       'Guide students using PCB manufacturing machines, laser cutters, and benchtop instruments for their projects.',
       'Help sustain a student-led, low-pressure environment where students from any major can prototype and learn safely.'
     ],
+    statsTitle: 'The Hive Makerspace Stats',
     stats: [{ value: '15,000 ft²', label: 'student-run makerspace' }, { value: '24', label: 'electronics benches' }],
     skills: ['Oscilloscopes', 'Waveform generators', 'PCB fabrication', 'Machine tools', 'Resin 3D printers', 'Plastic 3D printers', 'Embedded hardware', 'Digital multimeters', 'Soldering', 'Laser cutting', 'Technical instruction'],
     image: 'hive-benchtops.jpg', imageAlt: 'Students working at electronics benchtops inside The Hive at Georgia Tech', imageCaption: 'THE HIVE ELECTRONICS BENCHTOPS / PHOTO: GEORGIA TECH',

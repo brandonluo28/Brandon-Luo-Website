@@ -44,7 +44,10 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <div className="detail-component component-ic" aria-hidden="true"><span>{item.ref}</span><i/><i/><i/><i/><i/><i/></div>
       </div>
 
-      {item.stats && <section className="detail-stats" aria-label="Key results">{item.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>}
+      {item.stats && <section className="detail-stats" aria-labelledby={`${slug}-stats-title`}>
+        <h2 id={`${slug}-stats-title`} className="detail-stats-title">{item.statsTitle || 'Key Results'}</h2>
+        {item.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+      </section>}
 
       <div className="detail-body">
         {item.projectSections ? <div className="project-sections" aria-label="Personal project details">

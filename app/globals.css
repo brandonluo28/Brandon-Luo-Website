@@ -168,3 +168,13 @@
   .hive-tools-row{grid-template-columns:1fr;padding:42px 0}
   .hive-tools-row img{min-height:0;aspect-ratio:16/10}
 }
+
+/* Detail hierarchy and image focal-point refinements. */
+.detail-hero h1{font-size:clamp(2.8rem,5.3vw,5.6rem);letter-spacing:-.055em;line-height:.94}
+.detail-stats-title{grid-column:1/-1;margin:0;padding:22px 25px 14px;font:600 1rem Arial,Helvetica,sans-serif;letter-spacing:-.01em;color:var(--ink)}
+.about-gallery-stack figure:last-child img{object-position:50% 25%}
+
+@media(max-width:650px){
+  .detail-hero h1{font-size:clamp(2.55rem,11vw,3.8rem)}
+  .detail-stats-title{padding:20px 0 12px}
+}
