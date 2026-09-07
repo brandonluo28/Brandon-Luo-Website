@@ -39,7 +39,7 @@ function PowerSymbol({ x, y, label }: { x: number; y: number; label: '3V3' | '5V
 }
 
 function Capacitor({ x, y, refName }: { x: number; y: number; refName: string }) {
-  return <g className="capacitor-symbol" transform={`translate(${x} ${y})`}><path d="M0-18V-6M-13-6H13M-13 6H13M0 6V18"/><text x="18" y="3">{refName}</text></g>;
+  return <g className="capacitor-symbol" transform={`translate(${x} ${y})`}><path d="M0-18V-6M-13-6H13M-13 6H13M0 6V18"/><circle className="junction" cy="-18" r="2.2"/><circle className="junction" cy="18" r="2.2"/><text x="18" y="3">{refName}</text></g>;
 }
 
 function HorizontalResistor({ x, y, refName, labelSide = false }: { x: number; y: number; refName: string; labelSide?: boolean }) {
@@ -118,7 +118,7 @@ export function PcbExplorer() {
   return <main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
     <header className="pcb-topbar schematic-topbar">
       <a href="/" className="schematic-brand"><span>BL-PORTFOLIO-28</span><small>INTERACTIVE ENGINEERING SCHEMATIC</small></a>
-      <p><span className="live-dot"/>SCHEMATIC <b>REV 4.3</b></p>
+      <p><span className="live-dot"/>SCHEMATIC <b>REV 4.4</b></p>
       <div className="board-links"><a href="mailto:brandonluo@gatech.edu">CONTACT</a><a href="/Brandon-Luo-Resume.pdf" target="_blank" rel="noreferrer">RESUME ↗</a></div>
     </header>
 
@@ -132,7 +132,7 @@ export function PcbExplorer() {
 
           <div className="sheet-title-block">
             <div className="title-main"><small>TITLE</small><b>Brandon Luo</b><span>Electrical &amp; Computer Engineering</span></div>
-            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>4.3</span></div>
+            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>4.4</span></div>
             <div><small>SHEET</small><span>1 / 1</span></div><div><small>GRAD</small><span>2028</span></div>
           </div>
 
@@ -143,30 +143,30 @@ export function PcbExplorer() {
               <path d="M90 115H170M90 135H170"/>
               <path d="M90 205H120M160 205H450V115H470M90 225H160M200 225H460V135H470"/>
               <HorizontalResistor x={140} y={205} refName="R1"/><HorizontalResistor x={180} y={225} refName="R2" labelSide/>
-              <text className="net-label" x="250" y="198">ETH_P</text><text className="net-label" x="250" y="242">ETH_N</text>
+              <text className="net-label" x="375" y="198">ETH_P</text><text className="net-label" x="375" y="242">ETH_N</text>
 
               <path d="M90 245H850M90 275H850M90 305H850M90 335H850"/>
               <text className="net-label" x="760" y="238">SCLK</text><text className="net-label" x="760" y="268">MOSI</text><text className="net-label" x="760" y="298">MISO</text><text className="net-label" x="760" y="328">CS</text>
 
-              <path d="M90 395H1100M90 415H1100M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
-              <VerticalResistor x={1100} y={405} refName="R3" labelSide="left"/>
-              <text className="net-label" x="995" y="389">CAN_H</text><text className="net-label" x="995" y="432">CAN_L</text>
+              <path d="M90 395H930M90 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
+              <VerticalResistor x={930} y={405} refName="R3" labelSide="left"/>
+              <text className="net-label" x="840" y="389">CAN_H</text><text className="net-label" x="840" y="432">CAN_L</text>
             </g>
 
             <g className="support-circuits">
-              <path className="wire" d="M240 75V45M240 55H380V37M300 75V73H380M540 75V45M540 55H700V37M600 75V73H700"/>
-              <PowerSymbol x={240} y={45} label="5V"/><Capacitor x={380} y={55} refName="C1"/><GroundSymbol x={380} y={85}/>
-              <PowerSymbol x={540} y={45} label="3V3"/><Capacitor x={700} y={55} refName="C2"/><GroundSymbol x={700} y={85}/>
+              <path className="wire" d="M240 75V37H380M300 75V73H380M540 75V37H700M600 75V73H700"/>
+              <PowerSymbol x={240} y={37} label="5V"/><Capacitor x={380} y={55} refName="C1"/><GroundSymbol x={380} y={85}/>
+              <PowerSymbol x={540} y={37} label="3V3"/><Capacitor x={700} y={55} refName="C2"/><GroundSymbol x={700} y={85}/>
 
-              <path className="wire" d="M940 198V168M940 178H1110V160M1000 198V196H1110"/>
-              <PowerSymbol x={940} y={168} label="3V3"/><Capacitor x={1110} y={178} refName="C3"/><GroundSymbol x={1110} y={208}/>
+              <path className="wire" d="M940 198V160H1110M1000 198V196H1110"/>
+              <PowerSymbol x={940} y={160} label="3V3"/><Capacitor x={1110} y={178} refName="C3"/><GroundSymbol x={1110} y={208}/>
 
-              <path className="wire" d="M130 568H835M330 568V572M580 568V572M835 568V572M375 505V540M620 505V540M880 505V540"/>
+              <path className="wire" d="M130 568H835M375 505V538M620 505V538M880 505V538"/>
               <PowerSymbol x={130} y={568} label="5V"/>
-              <Capacitor x={330} y={590} refName="C4"/><GroundSymbol x={330} y={620}/>
-              <Capacitor x={580} y={590} refName="C5"/><GroundSymbol x={580} y={620}/>
-              <Capacitor x={835} y={590} refName="C6"/><GroundSymbol x={835} y={620}/>
-              <GroundSymbol x={375} y={552}/><GroundSymbol x={620} y={552}/><GroundSymbol x={880} y={552}/>
+              <Capacitor x={330} y={586} refName="C4"/><GroundSymbol x={330} y={616}/>
+              <Capacitor x={580} y={586} refName="C5"/><GroundSymbol x={580} y={616}/>
+              <Capacitor x={835} y={586} refName="C6"/><GroundSymbol x={835} y={616}/>
+              <GroundSymbol x={375} y={550}/><GroundSymbol x={620} y={550}/><GroundSymbol x={880} y={550}/>
             </g>
 
             <g className="active-nets"><defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>

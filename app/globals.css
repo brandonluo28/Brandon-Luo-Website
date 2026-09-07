@@ -53,7 +53,7 @@
 @media(max-width:900px){.detail-shell .detail-page{width:calc(100% - 150px);margin-left:106px}.detail-shell .detail-footer{padding-left:106px}.schematic-drawing .ic-title{font-size:11px}.sheet-title-block{min-width:180px}}
 @media(max-width:650px){.detail-shell .detail-trace{display:none}.detail-shell .detail-page{width:calc(100% - 36px);margin-inline:auto}.detail-shell .detail-footer{padding:20px 18px}.schematic-drawing .ic-title{font-size:12px}}
 
-/* Revision 4.3: wide top sheet fitted within one viewport. */
+/* Revision 4.4: wide top sheet fitted within one viewport. */
 .schematic-topbar{height:64px;min-height:64px}
 .schematic-workbench{height:calc(100svh - 64px);min-height:0;padding:12px 24px 9px;overflow:hidden;display:flex;flex-direction:column}
 .schematic-copy{width:min(1320px,96vw);max-width:none;margin:0 auto 8px;flex:0 0 auto}
@@ -64,7 +64,9 @@
 .schematic-legend{flex:0 0 auto;margin:6px auto 0;font-size:.6rem;gap:22px}
 .sheet-title-block .title-main{grid-template-columns:42px 1fr;padding-block:3px}
 .sheet-title-block .title-main b{font-size:.82rem}
-.sheet-title-block .title-main span{font-size:.56rem;white-space:nowrap}
+.sheet-title-block{width:22%;min-width:230px}
+.sheet-title-block .title-main span{font-size:.52rem;line-height:1.05;white-space:normal;overflow-wrap:normal}
+.support-circuits .capacitor-symbol .junction{fill:var(--paper-net);stroke:none}
 .active-nets .trace-live.active{animation-duration:1.25s}
 
 /* Media is separated from the text columns so portrait images cannot leave an empty sidebar. */
@@ -82,6 +84,7 @@
 @media(max-width:900px){
   .schematic-copy{width:96vw}
   .schematic-stage{width:min(96vw,calc(187.5svh - 290.625px));max-height:none;aspect-ratio:1.875}
+  .sheet-title-block{width:24%;min-width:180px}
   .sheet-title-block .title-main span{font-size:.51rem}
   .detail-media,.detail-media-spacex{grid-template-columns:1fr 1fr}
   .detail-media-copy{grid-column:1/-1}
