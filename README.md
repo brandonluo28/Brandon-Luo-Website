@@ -1,6 +1,6 @@
 # Brandon Luo — Electrical and Computer Engineering Portfolio
 
-An interactive 3D PCB portfolio. Six raised IC packages open detailed pages for BETA Technologies, SpaceX, Yellow Jacket Space Program, personal projects, The Hive, and Brandon's background. The board uses a length-matched Ethernet pair, four-line SPI bus, CAN high/low bus, decoupling capacitors, resistors, terminations, and mounting holes.
+An interactive electrical schematic portfolio. Six IC symbols open detailed pages for BETA Technologies, SpaceX, Yellow Jacket Space Program, personal projects, The Hive, and Brandon's background. The top-level sheet uses a length-matched Ethernet pair, four-line SPI bus, CAN high/low bus, American resistor symbols, parallel-plate capacitor symbols, and labeled terminations.
 
 ## Publish to GitHub
 
@@ -28,10 +28,10 @@ pnpm start
 
 ## Edit the portfolio
 
-- `components/pcb-explorer.tsx`: interactive PCB, drag-to-orbit behavior, components, and routed buses.
+- `components/pcb-explorer.tsx`: interactive top-level schematic, American component symbols, and routed buses.
 - `lib/portfolio.ts`: résumé content, researched context, project coordinates, and source links.
 - `app/work/[slug]/page.tsx`: detailed project and About pages.
-- `app/globals.css`: 3D component geometry, responsive board layout, colors, and traces.
+- `app/globals.css`: schematic sheet styling, responsive layout, colors, and signal nets.
 - `app/layout.tsx`: browser title, description, and favicon metadata.
 - `public/assets/`: optimized photos, converted faithfully from the supplied HEIC/JPG originals.
 - `public/Brandon-Luo-Resume.pdf`: downloadable original résumé.
