@@ -44,17 +44,17 @@ export const portfolioItems: PortfolioItem[] = [
     slug: 'spacex', ref: 'U2', shortTitle: 'SpaceX', title: 'SpaceX',
     eyebrow: 'STARLINK AVIONICS', role: 'Avionics Engineering Intern', period: 'Jan - Apr 2026',
     summary: 'Worked across flight-readiness testing, harness design, and precision manufacturing automation.',
-    context: 'Starlink V2 Mini introduced more powerful phased-array antennas, E-band backhaul, and argon Hall thrusters. SpaceX reported roughly four times the capacity per satellite compared with earlier generations.',
+    context: 'My internship work supported Starlink V3, SpaceX’s next-generation satellite platform. SpaceX says each V3 satellite is designed for 1 Tbps of downlink and 160 Gbps of uplink capacity, with 2,048 beams in each direction, upgraded phased-array antennas, next-generation beamforming chips, and solar arrays producing roughly twice the power of V2. Designed for Starship deployment, V3 is expected to add more than 20 times the network capacity of a current Falcon 9 V2 launch.',
     bullets: [
       'Designed and routed copper and fiber-optic harnesses for power and data using Siemens NX on a fast-paced timeline.',
       'Validated high-voltage PCBs for flight readiness through in-circuit and functional load testing, establishing tolerances.',
       'Engineered an automated, micron-accurate fiber-optic termination machine using LabVIEW, .NET/C#, and RS-232.',
       'Implemented custom edge-detection algorithms and a dedicated GUI to reach a four-minute termination cycle.'
     ],
-    stats: [{ value: '4 min', label: 'fiber termination cycle' }, { value: '3x', label: 'production efficiency' }],
-    skills: ['LabVIEW', '.NET / C#', 'RS-232', 'Siemens NX', 'PCB validation', 'Fiber optics'],
-    image: 'starlink-v2.jpg', imageAlt: 'A stack of Starlink V2 Mini satellites inside a Falcon 9 payload fairing', imageCaption: 'STARLINK V2 MINI STACK / PHOTO: SPACEX',
-    sourceLinks: [{ label: 'SpaceX V2 Mini announcement', url: 'https://www.linkedin.com/posts/spacex_targeting-monday-february-27-for-launch-activity-7035737444880683008-2UdB' }, { label: 'V2 Mini satellite photos', url: 'https://spaceflightnow.com/2023/02/26/spacex-unveils-first-batch-of-larger-upgraded-starlink-satellites/' }], x: 50, y: 25
+    stats: [{ value: '1 Tbps', label: 'V3 downlink capacity' }, { value: '160 Gbps', label: 'V3 uplink capacity' }, { value: '4 min', label: 'fiber termination cycle' }],
+    skills: ['Starlink V3', 'LabVIEW', '.NET / C#', 'RS-232', 'Siemens NX', 'PCB validation', 'Fiber optics'],
+    image: 'starlink-exterior.webp', imageAlt: 'Starlink production facility in Redmond, Washington during winter', imageCaption: 'STARLINK PRODUCTION / REDMOND, WASHINGTON',
+    sourceLinks: [{ label: 'Starlink: Version 3 satellites', url: 'https://starlink.com/updates/starlink-version-3-satellites' }, { label: 'SpaceX: V3 and Starship updates', url: 'https://new.spacex.com/updates' }], x: 50, y: 25
   },
   {
     slug: 'about-me', ref: 'U3', shortTitle: 'About Me', title: 'Brandon Luo',
@@ -114,7 +114,8 @@ export const portfolioItems: PortfolioItem[] = [
     ],
     stats: [{ value: '15,000 ft²', label: 'student-run makerspace' }, { value: '24', label: 'electronics benches' }],
     skills: ['Oscilloscopes', 'Waveform generators', 'PCB fabrication', 'Laser cutting', 'Technical instruction'],
-    sourceLinks: [{ label: 'The Hive: About', url: 'https://hive.ece.gatech.edu/about/' }, { label: 'The Hive: Tools', url: 'https://hive.ece.gatech.edu/explore/' }], x: 68, y: 74
+    image: 'hive-benchtops.jpg', imageAlt: 'Students working at electronics benchtops inside The Hive at Georgia Tech', imageCaption: 'THE HIVE ELECTRONICS BENCHTOPS / PHOTO: GEORGIA TECH',
+    sourceLinks: [{ label: 'The Hive: About', url: 'https://hive.ece.gatech.edu/about/' }, { label: 'The Hive: Tools', url: 'https://hive.ece.gatech.edu/explore/' }, { label: 'Georgia Tech makerspaces', url: 'https://coe.gatech.edu/academics/makerspaces' }], x: 68, y: 74
   }
 ];
 

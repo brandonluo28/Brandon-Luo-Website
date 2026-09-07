@@ -51,9 +51,19 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <aside className="detail-sidebar">
           {item.context && <section className="context-card"><p className="detail-label">BOARD CONTEXT</p><h2>The larger system</h2><p>{item.context}</p>{item.sourceLinks && <div className="source-links">{item.sourceLinks.map((source)=><a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a>)}</div>}</section>}
           <section><p className="detail-label">COMPONENT LIBRARY</p><h2>Tools &amp; systems</h2><div className="detail-tags">{item.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>
-          {item.image && <figure className="detail-image"><AssetImage src={item.image} alt={item.imageAlt || ''}/><figcaption>{item.imageCaption}</figcaption></figure>}
         </aside>
       </div>
+
+      {item.image && slug !== 'spacex' && <section className="detail-media" aria-label={`${item.shortTitle} image`}>
+        <div className="detail-media-copy"><p className="detail-label">FIELD VIEW / 02</p><h2>In context.</h2><p>A closer look at the people, hardware, and places behind this part of the schematic.</p></div>
+        <figure><AssetImage src={item.image} alt={item.imageAlt || ''}/><figcaption>{item.imageCaption}</figcaption></figure>
+      </section>}
+
+      {slug === 'spacex' && <section className="detail-media detail-media-spacex" aria-labelledby="spacex-media-title">
+        <div className="detail-media-copy"><p className="detail-label">STARLINK HARDWARE / 02</p><h2 id="spacex-media-title">V3 at production scale.</h2><p>My work supported the V3 generation. The V2 Mini stack shown here is its direct predecessor; the winter facility photo grounds that work in Starlink’s Redmond production environment.</p></div>
+        <figure className="media-wide"><AssetImage src="starlink-exterior.webp" alt="Starlink production facility in Redmond, Washington during winter"/><figcaption>STARLINK PRODUCTION / REDMOND, WASHINGTON</figcaption></figure>
+        <figure className="media-portrait"><AssetImage src="starlink-v2.jpg" alt="A stack of Starlink V2 Mini satellites inside a Falcon 9 payload fairing"/><figcaption>V2 MINI STACK / PREDECESSOR TO V3 / PHOTO: SPACEX</figcaption></figure>
+      </section>}
 
       {slug === 'beta-technologies' && <section className="hardware-gallery" aria-labelledby="gallery-title">
         <div><p className="detail-label">FABRICATED HARDWARE / 02</p><h2 id="gallery-title">From layout to bench.</h2></div>

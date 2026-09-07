@@ -52,3 +52,52 @@
 .detail-shell{background:#f5f5f2}.detail-shell .detail-trace{left:0;top:82px;bottom:0;width:72px;padding:22px 0;background:#dedfdb;border-right:1px solid var(--line)}.detail-shell .detail-page{width:min(1120px,calc(100% - 190px));margin-left:max(110px,calc((100% - 1120px)/2));margin-right:auto}.detail-shell .detail-footer{padding-left:max(110px,calc((100% - 1120px)/2))}
 @media(max-width:900px){.detail-shell .detail-page{width:calc(100% - 150px);margin-left:106px}.detail-shell .detail-footer{padding-left:106px}.schematic-drawing .ic-title{font-size:11px}.sheet-title-block{min-width:180px}}
 @media(max-width:650px){.detail-shell .detail-trace{display:none}.detail-shell .detail-page{width:calc(100% - 36px);margin-inline:auto}.detail-shell .detail-footer{padding:20px 18px}.schematic-drawing .ic-title{font-size:12px}}
+
+/* Revision 4.2: fit the complete top sheet in one viewport. */
+.schematic-topbar{height:64px;min-height:64px}
+.schematic-workbench{height:calc(100svh - 64px);min-height:0;padding:12px 24px 9px;overflow:hidden;display:flex;flex-direction:column}
+.schematic-copy{width:min(1120px,94vw);max-width:none;margin:0 auto 8px;flex:0 0 auto}
+.schematic-copy .overline{display:none}
+.schematic-copy h1{font-size:clamp(1.35rem,2.2vw,1.85rem);line-height:1;margin:0 0 4px}
+.schematic-copy>p:last-child{font-size:.75rem;line-height:1.25;max-width:none}
+.schematic-stage{flex:1 1 auto;width:min(1120px,94vw,calc((100svh - 160px)*1.5625));max-width:1120px;max-height:calc(100svh - 160px);min-height:0;aspect-ratio:1.5625;margin:0 auto}
+.schematic-legend{flex:0 0 auto;margin:6px auto 0;font-size:.6rem;gap:22px}
+.sheet-title-block .title-main{grid-template-columns:42px 1fr;padding-block:3px}
+.sheet-title-block .title-main b{font-size:.82rem}
+.sheet-title-block .title-main span{font-size:.56rem;white-space:nowrap}
+
+/* Media is separated from the text columns so portrait images cannot leave an empty sidebar. */
+.detail-media{display:grid;grid-template-columns:minmax(190px,.55fr) minmax(0,1.45fr);gap:28px;align-items:start;padding:58px 0;border-top:1px solid var(--line)}
+.detail-media-copy h2{font-size:2rem;font-weight:400;letter-spacing:-.04em;margin:10px 0 18px}
+.detail-media-copy>p:last-child{color:var(--muted);max-width:31rem}
+.detail-media figure{min-width:0;margin:0;padding:9px;border:1px solid var(--line);background:#fff}
+.detail-media img{display:block;width:100%;height:auto;max-height:620px;object-fit:cover}
+.detail-media figcaption{font:400 .68rem var(--mono);color:var(--muted);padding:10px 4px 2px}
+.detail-media-spacex{grid-template-columns:minmax(190px,.62fr) minmax(0,1.22fr) minmax(190px,.58fr)}
+.detail-media-spacex .media-wide img{aspect-ratio:4/3;object-fit:cover}
+.detail-media-spacex .media-portrait img{aspect-ratio:3/4;object-fit:cover;object-position:center}
+.detail-shell .detail-media figure{background:#fff;border-color:var(--line)}
+
+@media(max-width:900px){
+  .schematic-copy{width:96vw}
+  .schematic-stage{width:min(96vw,calc((100svh - 155px)*1.5625));max-height:calc(100svh - 155px)}
+  .sheet-title-block .title-main span{font-size:.51rem}
+  .detail-media,.detail-media-spacex{grid-template-columns:1fr 1fr}
+  .detail-media-copy{grid-column:1/-1}
+}
+@media(max-width:650px){
+  .schematic-topbar{height:58px;min-height:58px}
+  .schematic-workbench{height:calc(100svh - 58px);min-height:0;padding:8px;overflow:hidden}
+  .schematic-copy{width:98vw;margin-bottom:6px}
+  .schematic-copy h1{font-size:1.2rem}
+  .schematic-copy>p:last-child{font-size:.64rem}
+  .schematic-stage{width:min(98vw,calc((100svh - 134px)*1.5625));max-width:98vw;max-height:calc(100svh - 134px);transform:none;margin:0 auto;aspect-ratio:1.5625}
+  .schematic-legend{margin-top:4px;gap:12px;font-size:.48rem;justify-content:center}
+  .sheet-title-block{min-width:0;width:29%}
+  .sheet-title-block .title-main{grid-template-columns:24px 1fr;padding:1px 3px}
+  .sheet-title-block .title-main b{font-size:.5rem}
+  .sheet-title-block .title-main span{font-size:.34rem}
+  .sheet-title-block>div{padding:2px 3px;gap:3px;font-size:.36rem}
+  .detail-media,.detail-media-spacex{grid-template-columns:1fr;padding:42px 0}
+  .detail-media-copy{grid-column:auto}
+}

@@ -17,7 +17,7 @@ const symbolLayouts: Record<string, SymbolLayout> = {
 
 const activePaths: Record<string, string> = {
   'beta-technologies': 'M90 115H170M90 135H170',
-  spacex: 'M90 205H330M370 205H400V115H420M90 225H350M390 225H410V135H420',
+  spacex: 'M90 205H120M160 205H400V115H420M90 225H160M200 225H410V135H420',
   'about-me': 'M90 245H710M90 275H710M90 305H710M90 335H710',
   'yellow-jacket-space-program': 'M90 395H240V420M90 415H290V420',
   'personal-projects': 'M90 395H455V420M90 415H505V420',
@@ -64,8 +64,8 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
   const top = layout.cy - layout.height / 2;
   const bottom = layout.cy + layout.height / 2;
   const isBottomBusDevice = ['yellow-jacket-space-program','personal-projects','the-hive'].includes(item.slug);
-  const leftPinYs = item.slug === 'about-me' ? [245,275,305,335] : isBottomBusDevice ? [460,480,500,520] : [115,135,155,175];
-  const usedLeftPins = item.slug === 'beta-technologies' || item.slug === 'spacex' ? 2 : item.slug === 'about-me' ? 4 : 0;
+  const connectedLeftPinYs = item.slug === 'about-me' ? [245,275,305,335] : isBottomBusDevice ? [] : [115,135];
+  const noConnectYs = [layout.cy - 10, layout.cy + 10];
   const canPinXs = item.slug === 'yellow-jacket-space-program' ? [240,290] : item.slug === 'personal-projects' ? [455,505] : [665,715];
 
   const activateFromKeyboard = (event: React.KeyboardEvent<SVGGElement>) => {
@@ -78,8 +78,8 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
     <text className="ic-ref" x={left + 12} y={top + 24}>{item.ref}</text>
     <text className="ic-title" x={layout.cx} y={layout.cy - (layout.titleLines.length - 1) * 8} textAnchor="middle">{layout.titleLines.map((line,index)=><tspan key={line} x={layout.cx} dy={index ? 18 : 0}>{line}</tspan>)}</text>
 
-    {leftPinYs.map((y,index)=><g className="ic-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text>{index >= usedLeftPins && <NoConnect x={left-20} y={y}/>}</g>)}
-    {leftPinYs.map((y,index)=><g className="ic-pin" key={`right-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{index + 5}</text><NoConnect x={right+20} y={y}/></g>)}
+    {connectedLeftPinYs.map((y,index)=><g className="ic-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
+    {noConnectYs.map((y,index)=><g className="ic-pin" key={`nc-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{index + 5}</text><NoConnect x={right+20} y={y}/></g>)}
 
     {isBottomBusDevice ? <>
       <g className="ic-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>9</text></g>
@@ -113,12 +113,12 @@ export function PcbExplorer() {
   return <main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
     <header className="pcb-topbar schematic-topbar">
       <a href="/" className="schematic-brand"><span>BL-PORTFOLIO-28</span><small>INTERACTIVE ENGINEERING SCHEMATIC</small></a>
-      <p><span className="live-dot"/>SCHEMATIC <b>REV 4.1</b></p>
+      <p><span className="live-dot"/>SCHEMATIC <b>REV 4.2</b></p>
       <div className="board-links"><a href="mailto:brandonluo@gatech.edu">CONTACT</a><a href="/Brandon-Luo-Resume.pdf" target="_blank" rel="noreferrer">RESUME ↗</a></div>
     </header>
 
     <section className="pcb-workbench schematic-workbench" aria-labelledby="board-title">
-      <div className="bench-copy schematic-copy"><p className="overline">PORTFOLIO / TOP LEVEL</p><h1 id="board-title">Select a subsystem.</h1><p>Hover over a symbol to identify it. Click to highlight its net and open the detailed sheet.</p></div>
+      <div className="bench-copy schematic-copy"><p className="overline">PORTFOLIO / TOP LEVEL</p><h1 id="board-title">Select a component.</h1><p>Hover to identify a component. Click to highlight its net and open the detailed sheet.</p></div>
 
       <div className="board-stage schematic-stage">
         <div className="schematic-sheet">
@@ -126,9 +126,9 @@ export function PcbExplorer() {
           <span className="sheet-coordinate top one">1</span><span className="sheet-coordinate top two">2</span><span className="sheet-coordinate top three">3</span><span className="sheet-coordinate top four">4</span><span className="sheet-coordinate top five">5</span>
 
           <div className="sheet-title-block">
-            <div className="title-main"><small>TITLE</small><b>Brandon Luo</b><span>ECE Engineering</span></div>
-            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>4.1</span></div>
-            <div><small>SHEET</small><span>1 / 1</span></div><div><small>DATE</small><span>2026</span></div>
+            <div className="title-main"><small>TITLE</small><b>Brandon Luo</b><span>Electrical &amp; Computer Engineering</span></div>
+            <div><small>DOC</small><span>BL-PORTFOLIO-28</span></div><div><small>REV</small><span>4.2</span></div>
+            <div><small>SHEET</small><span>1 / 1</span></div><div><small>GRAD</small><span>2028</span></div>
           </div>
 
           <svg className="schematic-drawing" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-label="Interactive top-level portfolio schematic">
@@ -136,16 +136,16 @@ export function PcbExplorer() {
 
             <g className="signal-nets">
               <path d="M90 115H170M90 135H170"/>
-              <path d="M90 205H330M370 205H400V115H420M90 225H350M390 225H410V135H420"/>
-              <HorizontalResistor x={350} y={205} refName="R1"/><HorizontalResistor x={370} y={225} refName="R2" labelSide/>
-              <text className="net-label" x="258" y="197">ETH_P</text><text className="net-label" x="278" y="242">ETH_N</text>
+              <path d="M90 205H120M160 205H400V115H420M90 225H160M200 225H410V135H420"/>
+              <HorizontalResistor x={140} y={205} refName="R1"/><HorizontalResistor x={180} y={225} refName="R2" labelSide/>
+              <text className="net-label" x="250" y="198">ETH_P</text><text className="net-label" x="250" y="242">ETH_N</text>
 
               <path d="M90 245H710M90 275H710M90 305H710M90 335H710"/>
               <text className="net-label" x="620" y="238">SCLK</text><text className="net-label" x="620" y="268">MOSI</text><text className="net-label" x="620" y="298">MISO</text><text className="net-label" x="620" y="328">CS</text>
 
-              <path d="M90 395H820M90 415H820M240 395V420M290 415V420M455 395V420M505 415V420M665 395V420M715 415V420"/>
-              <VerticalResistor x={120} y={405} refName="R3"/><VerticalResistor x={820} y={405} refName="R4" labelSide="left"/>
-              <text className="net-label" x="745" y="389">CAN_H</text><text className="net-label" x="745" y="432">CAN_L</text>
+              <path d="M90 395H850M90 415H850M240 395V420M290 415V420M455 395V420M505 415V420M665 395V420M715 415V420"/>
+              <VerticalResistor x={850} y={405} refName="R3" labelSide="left"/>
+              <text className="net-label" x="770" y="389">CAN_H</text><text className="net-label" x="770" y="432">CAN_L</text>
             </g>
 
             <g className="support-circuits">
@@ -156,9 +156,9 @@ export function PcbExplorer() {
               <path className="wire" d="M830 218V178M830 188H960V170M810 362V374"/>
               <PowerSymbol x={830} y={178} label="3V3"/><Capacitor x={960} y={188} refName="C3"/><GroundSymbol x={960} y={218}/><GroundSymbol x={810} y={386}/>
 
-              <path className="wire" d="M240 540V560M240 550H330V570M290 540V560M455 540V560M455 550H565V570M505 540V560M665 540V560M665 550H630V570M715 540V560"/>
-              <PowerSymbol x={240} y={560} label="5V"/><Capacitor x={330} y={588} refName="C4"/><GroundSymbol x={330} y={618}/><GroundSymbol x={290} y={572}/>
-              <PowerSymbol x={455} y={560} label="3V3"/><Capacitor x={565} y={588} refName="C5"/><GroundSymbol x={565} y={618}/><GroundSymbol x={505} y={572}/>
+              <path className="wire" d="M240 540V560M240 550H190V570M290 540V560M455 540V560M455 550H405V570M505 540V560M665 540V560M665 550H620V570M715 540V560"/>
+              <PowerSymbol x={240} y={560} label="5V"/><Capacitor x={190} y={588} refName="C4"/><GroundSymbol x={190} y={618}/><GroundSymbol x={290} y={572}/>
+              <PowerSymbol x={455} y={560} label="3V3"/><Capacitor x={405} y={588} refName="C5"/><GroundSymbol x={405} y={618}/><GroundSymbol x={505} y={572}/>
               <PowerSymbol x={665} y={560} label="3V3"/><Capacitor x={630} y={588} refName="C6"/><GroundSymbol x={630} y={618}/><GroundSymbol x={715} y={572}/>
             </g>
 
@@ -168,7 +168,7 @@ export function PcbExplorer() {
           </svg>
         </div>
       </div>
-      <div className="board-legend schematic-legend"><span><i className="legend-line"/> SIGNAL NET</span><span><i className="legend-dot"/> CLICKABLE SUBSYSTEM</span><span><i className="legend-nc">×</i> NO CONNECT</span></div>
+      <div className="board-legend schematic-legend"><span><i className="legend-line"/> SIGNAL NET</span><span><i className="legend-dot"/> CLICKABLE COMPONENT</span><span><i className="legend-nc">×</i> NO CONNECT</span></div>
       {active&&<div className="routing-status schematic-status" role="status"><span>HIGHLIGHTING NET</span><b>{portfolioItems.find((item)=>item.slug===active)?.shortTitle}</b><i/></div>}
     </section>
   </main>;
