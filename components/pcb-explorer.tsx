@@ -1,8 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { portfolioItems, type PortfolioItem } from '@/lib/portfolio';
+import { sitePagePath, sitePath } from '@/lib/site-path';
 
 type SymbolLayout = { cx: number; cy: number; width: number; height: number; titleLines: string[] };
 
@@ -106,22 +106,26 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
 }
 
 export function PcbExplorer() {
-  const router = useRouter();
   const [active, setActive] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+
+  const itemPath = (item: PortfolioItem) => sitePagePath(`/work/${item.slug}/`);
+  const prefetchItem = (item: PortfolioItem) => {
+    void fetch(itemPath(item)).catch(() => undefined);
+  };
 
   const openItem = (item: PortfolioItem) => {
     if (active) return;
     setActive(item.slug);
-    router.prefetch(`/work/${item.slug}/`);
-    window.setTimeout(() => router.push(`/work/${item.slug}/`), ROUTE_NAVIGATION_MS);
+    prefetchItem(item);
+    window.setTimeout(() => window.location.assign(itemPath(item)), ROUTE_NAVIGATION_MS);
   };
 
   return <main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
     <header className="pcb-topbar schematic-topbar">
-      <a href="/" className="pcb-brand schematic-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
+      <a href={sitePath('/')} className="pcb-brand schematic-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
       <p><span className="live-dot"/>SCHEMATIC <b>REV 8.8</b></p>
-      <div className="board-links"><a href="mailto:brandonluo@gatech.edu">CONTACT</a><a href="/Brandon-Luo-Resume.pdf" target="_blank" rel="noreferrer">RESUME ↗</a></div>
+      <div className="board-links"><a href="mailto:brandonluo@gatech.edu">CONTACT</a><a href={sitePath('/Brandon-Luo-Resume.pdf')} target="_blank" rel="noreferrer">RESUME ↗</a></div>
     </header>
 
     <section className="pcb-workbench schematic-workbench" aria-label="Interactive portfolio schematic">
@@ -171,7 +175,7 @@ export function PcbExplorer() {
 
             <g className="active-nets"><defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
 
-            {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) router.prefetch(`/work/${item.slug}/`);}}/>)}
+            {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) prefetchItem(item);}}/>)}
           </svg>
         </div>
       </div>

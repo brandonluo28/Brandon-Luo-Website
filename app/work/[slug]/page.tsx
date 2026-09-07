@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { portfolioBySlug, portfolioItems } from '@/lib/portfolio';
+import { sitePagePath, sitePath } from '@/lib/site-path';
 
 export function generateStaticParams() {
   return portfolioItems.map(({ slug }) => ({ slug }));
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function AssetImage({ src, alt }: { src: string; alt: string }) {
-  return <img src={`/assets/${src}`} alt={alt} loading="lazy" decoding="async"/>;
+  return <img src={sitePath(`/assets/${src}`)} alt={alt} loading="lazy" decoding="async"/>;
 }
 
 function ToolsCard({ skills }: { skills: string[] }) {
@@ -30,8 +31,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
   return <main className="detail-shell">
     <header className="detail-header">
-      <a href="/" className="pcb-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
-      <a className="back-board" href="/"><span>←</span> RETURN TO BOARD</a>
+      <a href={sitePath('/')} className="pcb-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
+      <a className="back-board" href={sitePath('/')}><span>←</span> RETURN TO BOARD</a>
       <a href="mailto:brandonluo@gatech.edu">CONTACT ↗</a>
     </header>
 
@@ -100,8 +101,8 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <ToolsCard skills={item.skills}/>
       </section>}
 
-      <nav className="detail-pagination" aria-label="Portfolio pages"><a href={`/work/${previous.slug}/`}><small>PREVIOUS NODE</small><span>← {previous.shortTitle}</span></a><a href={`/work/${next.slug}/`}><small>NEXT NODE</small><span>{next.shortTitle} →</span></a></nav>
+      <nav className="detail-pagination" aria-label="Portfolio pages"><a href={sitePagePath(`/work/${previous.slug}/`)}><small>PREVIOUS NODE</small><span>← {previous.shortTitle}</span></a><a href={sitePagePath(`/work/${next.slug}/`)}><small>NEXT NODE</small><span>{next.shortTitle} →</span></a></nav>
     </article>
-    <footer className="detail-footer"><span>BRANDON LUO / ELECTRICAL AND COMPUTER ENGINEERING</span><a href="/Brandon-Luo-Resume.pdf" target="_blank">RESUME ↗</a></footer>
+    <footer className="detail-footer"><span>BRANDON LUO / ELECTRICAL AND COMPUTER ENGINEERING</span><a href={sitePath('/Brandon-Luo-Resume.pdf')} target="_blank">RESUME ↗</a></footer>
   </main>;
 }
