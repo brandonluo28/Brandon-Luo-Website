@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { portfolioItems, type PortfolioItem } from '@/lib/portfolio';
 import { sitePagePath, sitePath } from '@/lib/site-path';
 
@@ -108,6 +108,16 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
 export function PcbExplorer() {
   const [active, setActive] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+
+  useEffect(() => {
+    const resetInteractionState = () => {
+      setActive(null);
+      setHovered(null);
+    };
+
+    window.addEventListener('pageshow', resetInteractionState);
+    return () => window.removeEventListener('pageshow', resetInteractionState);
+  }, []);
 
   const itemPath = (item: PortfolioItem) => sitePagePath(`/work/${item.slug}/`);
   const prefetchItem = (item: PortfolioItem) => {
