@@ -77,15 +77,6 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
         <figure className="media-portrait"><AssetImage src="starlink-v2.jpg" alt="A stack of Starlink V2 Mini satellites inside a Falcon 9 payload fairing"/><figcaption>V2 MINI STACK / PREDECESSOR TO V3 / PHOTO: SPACEX</figcaption></figure>
       </section>}
 
-      {slug === 'beta-technologies' && <section className="hardware-gallery" aria-labelledby="gallery-title">
-        <div className="hardware-gallery-copy"><p className="detail-label">FABRICATED HARDWARE / 03</p><h2 id="gallery-title">From layout to bench.</h2></div>
-        <div className="hardware-gallery-grid">
-          <figure><AssetImage src="angle-of-attack-side-a.webp" alt="Top view of the Angle of Attack sensor PCB"/><figcaption>ANGLE OF ATTACK SENSOR PCB / TOP VIEW</figcaption></figure>
-          <figure><AssetImage src="angle-of-attack-side-b.webp" alt="Opposite side of the Angle of Attack sensor PCB"/><figcaption>ANGLE OF ATTACK SENSOR PCB / SIDE B</figcaption></figure>
-          <figure><AssetImage src="interface-board.webp" alt="Avionics interface board with multiple test connectors"/><figcaption>AVIONICS INTERFACE BOARD</figcaption></figure>
-        </div>
-      </section>}
-
       {slug === 'about-me' && <section className="about-gallery" aria-labelledby="about-gallery-title">
         <div className="about-gallery-copy"><p className="detail-label">OFF THE BENCH / 02</p><h2 id="about-gallery-title">Seattle roots. Always exploring.</h2><p>Whether it is a backpacking trip, a late-night game of chess, or a new circuit on the bench, I like learning by getting immersed in the thing itself.</p></div>
         <div className="about-gallery-stack">
