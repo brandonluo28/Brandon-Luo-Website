@@ -34,7 +34,7 @@ function GroundSymbol({ x, y }: { x: number; y: number }) {
   return <g className="ground-symbol" transform={`translate(${x} ${y})`}><path d="M0-12V0M-12 0H12M-8 5H8M-4 10H4"/></g>;
 }
 
-function PowerSymbol({ x, y, label }: { x: number; y: number; label: '3V3' | '5V' }) {
+function PowerSymbol({ x, y, label }: { x: number; y: number; label: '3V3' }) {
   return <g className="power-symbol" transform={`translate(${x} ${y})`}><path d="M0 0V-12M-7-5L0-12L7-5"/><text x="10" y="-7">+{label}</text></g>;
 }
 
@@ -169,14 +169,14 @@ export function PcbExplorer() {
 
             <g className="support-circuits">
               <path className="wire" d="M240 75V45H380M300 81H380M540 75V45H700M600 81H700"/>
-              <PowerSymbol x={240} y={45} label="5V"/><Capacitor x={380} y={63} refName="C1"/><GroundSymbol x={380} y={93}/>
+              <PowerSymbol x={240} y={45} label="3V3"/><Capacitor x={380} y={63} refName="C1"/><GroundSymbol x={380} y={93}/>
               <PowerSymbol x={540} y={45} label="3V3"/><Capacitor x={700} y={63} refName="C2"/><GroundSymbol x={700} y={93}/>
 
               <path className="wire" d="M940 198V168H1110M1000 204H1110"/>
               <PowerSymbol x={940} y={168} label="3V3"/><Capacitor x={1110} y={186} refName="C3"/><GroundSymbol x={1110} y={216}/>
 
               <path className="wire" d="M130 560H835M375 505V530M620 505V530M880 505V530"/>
-              <PowerSymbol x={130} y={560} label="5V"/>
+              <PowerSymbol x={130} y={560} label="3V3"/>
               <Capacitor x={330} y={578} refName="C4"/><GroundSymbol x={330} y={608}/>
               <Capacitor x={580} y={578} refName="C5"/><GroundSymbol x={580} y={608}/>
               <Capacitor x={835} y={578} refName="C6"/><GroundSymbol x={835} y={608}/>

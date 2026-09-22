@@ -1,6 +1,6 @@
 # Brandon Luo — Electrical and Computer Engineering Portfolio
 
-An interactive electrical schematic portfolio. Six IC symbols open detailed pages for BETA Technologies, SpaceX, Yellow Jacket Space Program, personal projects, The Hive, and Brandon's background. The top-level sheet uses a straight Ethernet pair, four-line SPI bus, CAN high/low bus with one termination resistor, American resistor symbols, parallel-plate decoupling capacitors, ground symbols, 3V3/5V rails, and no more than two no-connect markers per IC.
+An interactive electrical schematic portfolio. Six IC symbols open detailed pages for BETA Technologies, SpaceX, Yellow Jacket Space Program, personal projects, The Hive, and Brandon's background. The top-level sheet uses a straight Ethernet pair, four-line SPI bus, CAN high/low bus with one termination resistor, American resistor symbols, parallel-plate decoupling capacitors, ground symbols, 3V3 rails, and no more than two no-connect markers per IC.
 
 ## Publish to GitHub
 
