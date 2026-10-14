@@ -19,9 +19,9 @@ const activePaths: Record<string, string> = {
   'beta-technologies': 'M105 115H170M105 135H170',
   spacex: 'M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470',
   'about-me': 'M105 245H850M105 275H850M105 305H850M105 335H850',
-  'yellow-jacket-space-program': 'M105 395H245V420M105 415H295V420',
-  'personal-projects': 'M105 395H495V420M105 415H545V420',
-  'the-hive': 'M105 395H750V420M105 415H800V420'
+  'yellow-jacket-space-program': 'M105 395H930M105 415H930M245 395V420M295 415V420',
+  'personal-projects': 'M105 395H930M105 415H930M495 395V420M545 415V420',
+  'the-hive': 'M105 395H930M105 415H930M750 395V420M800 415V420'
 };
 
 const ROUTE_NAVIGATION_MS = 650;
@@ -42,12 +42,12 @@ function Capacitor({ x, y, refName }: { x: number; y: number; refName: string })
   return <g className="capacitor-symbol" transform={`translate(${x} ${y})`}><path d="M0-18V-6M-13-6H13M-13 6H13M0 6V18"/><circle className="junction" cy="-18" r="2.2"/><circle className="junction" cy="18" r="2.2"/><text x="18" y="3">{refName}</text></g>;
 }
 
-function HorizontalResistor({ x, y, refName, labelSide = false }: { x: number; y: number; refName: string; labelSide?: boolean }) {
-  return <g className="resistor-symbol" transform={`translate(${x} ${y})`}><path d="M-20 0L-16-9L-8 9L0-9L8 9L16-9L20 0"/><text x={labelSide ? 27 : 0} y={labelSide ? 3 : -14} textAnchor={labelSide ? 'start' : 'middle'}>{refName}</text></g>;
+function HorizontalResistor({ x, y, refName, labelSide = false, active = false }: { x: number; y: number; refName: string; labelSide?: boolean; active?: boolean }) {
+  return <g className={`resistor-symbol${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M-20 0L-16-9L-8 9L0-9L8 9L16-9L20 0"/><text x={labelSide ? 27 : 0} y={labelSide ? 3 : -14} textAnchor={labelSide ? 'start' : 'middle'}>{refName}</text></g>;
 }
 
-function VerticalResistor({ x, y, refName, labelSide = 'right' }: { x: number; y: number; refName: string; labelSide?: 'left' | 'right' }) {
-  return <g className="resistor-symbol" transform={`translate(${x} ${y})`}><path d="M0-10L-8-7L8-2L-8 3L8 8L0 10"/><text x={labelSide === 'right' ? 15 : -15} y="3" textAnchor={labelSide === 'right' ? 'start' : 'end'}>{refName}</text></g>;
+function VerticalResistor({ x, y, refName, labelSide = 'right', active = false }: { x: number; y: number; refName: string; labelSide?: 'left' | 'right'; active?: boolean }) {
+  return <g className={`resistor-symbol${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M0-10L-8-7L8-2L-8 3L8 8L0 10"/><text x={labelSide === 'right' ? 15 : -15} y="3" textAnchor={labelSide === 'right' ? 'start' : 'end'}>{refName}</text></g>;
 }
 
 function Connector() {
@@ -156,14 +156,14 @@ export function PcbExplorer() {
             <g className="signal-nets">
               <path d="M105 115H170M105 135H170"/>
               <path d="M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470"/>
-              <HorizontalResistor x={150} y={205} refName="R1"/><HorizontalResistor x={195} y={225} refName="R2" labelSide/>
+              <HorizontalResistor x={150} y={205} refName="R1" active={active === 'spacex'}/><HorizontalResistor x={195} y={225} refName="R2" labelSide active={active === 'spacex'}/>
               <text className="net-label" x="375" y="198">ETH_P</text><text className="net-label" x="375" y="218">ETH_N</text>
 
               <path d="M105 245H850M105 275H850M105 305H850M105 335H850"/>
               <text className="net-label" x="760" y="238">SCLK</text><text className="net-label" x="760" y="268">MOSI</text><text className="net-label" x="760" y="298">MISO</text><text className="net-label" x="760" y="328">CS</text>
 
               <path d="M105 395H930M105 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
-              <VerticalResistor x={930} y={405} refName="R3" labelSide="left"/>
+              <VerticalResistor x={930} y={405} refName="R3" labelSide="left" active={active !== null && ['yellow-jacket-space-program','personal-projects','the-hive'].includes(active)}/>
               <text className="net-label" x="840" y="389">CAN_H</text><text className="net-label" x="840" y="432">CAN_L</text>
             </g>
 
