@@ -17,7 +17,15 @@ export type PortfolioItem = {
   imageCaption?: string;
   mediaTitle?: string;
   mediaText?: string;
-  projectSections?: { eyebrow: string; title: string; summary: string; bullets: string[] }[];
+  projectSections?: {
+    eyebrow: string;
+    title: string;
+    summary: string;
+    bullets: string[];
+    image?: string;
+    imageAlt?: string;
+    imageCaption?: string;
+  }[];
   sourceLinks?: { label: string; url: string }[];
   x: number;
   y: number;
@@ -115,7 +123,10 @@ export const portfolioItems: PortfolioItem[] = [
         bullets: [
           'Wrote a C++ PID control system using MPU6050 IMU feedback to command dynamic thrust-vector corrections.',
           'Integrated a Teensy 4.0, HC-05 Bluetooth module, RS2205 motor, 4S LiPo battery, servos, and custom 3D-printed parts.'
-        ]
+        ],
+        image: 'monocopter.png',
+        imageAlt: 'White 3D-printed thrust-vectoring monocopter prototype with motor, propeller, servos, battery, and control electronics',
+        imageCaption: 'THRUST-VECTORING MONOCOPTER / HARDWARE PROTOTYPE'
       },
       {
         eyebrow: 'PROJECT 02 / APOGEE CONTROL', title: 'Active-Control Airbrake Rocket',

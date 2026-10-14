@@ -52,9 +52,12 @@ export default async function WorkPage({ params }: { params: Promise<{ slug: str
 
       <div className="detail-body">
         {item.projectSections ? <div className="project-sections" aria-label="Personal project details">
-          {item.projectSections.map((project) => <section className="project-section" key={project.title}>
-            <p className="detail-label">{project.eyebrow}</p><h2>{project.title}</h2><p className="project-summary">{project.summary}</p>
-            <ul>{project.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
+          {item.projectSections.map((project) => <section className={`project-section${project.image ? ' project-section-with-image' : ''}`} key={project.title}>
+            <div className="project-section-copy">
+              <p className="detail-label">{project.eyebrow}</p><h2>{project.title}</h2><p className="project-summary">{project.summary}</p>
+              <ul>{project.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
+            </div>
+            {project.image && <figure className="project-section-figure"><AssetImage src={project.image} alt={project.imageAlt || ''}/><figcaption>{project.imageCaption}</figcaption></figure>}
           </section>)}
         </div> : <section className="detail-findings" aria-labelledby="details-heading">
           <p className="detail-label">SIGNAL PATH / 01</p><h2 id="details-heading">What I worked on</h2>
