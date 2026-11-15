@@ -25,8 +25,9 @@ const activePaths: Record<string, string> = {
 };
 
 const ROUTE_NAVIGATION_MS = 650;
-const POWER_UP_DURATION_MS = 900;
-const POWER_UP_BOOT_SCRIPT = `(function(){try{var root=document.documentElement;var key='bl-power-up-v1';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||window.sessionStorage.getItem(key)){return;}window.sessionStorage.setItem(key,'1');root.classList.add('powering-up');window.setTimeout(function(){root.classList.remove('powering-up');},${POWER_UP_DURATION_MS});}catch(error){}})();`;
+const TRACE_BOOT_DURATION_MS = 950;
+const TRACE_BOOT_PATH = `${activePaths['beta-technologies']}${activePaths.spacex}${activePaths['about-me']}M105 395H930M105 415H930M245 395V444M295 415V444M495 395V444M545 415V444M750 395V444M800 415V444`;
+const TRACE_BOOT_SCRIPT = `(function(){try{var root=document.documentElement;var key='bl-trace-boot-v1';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||window.sessionStorage.getItem(key)){return;}window.sessionStorage.setItem(key,'1');root.classList.add('trace-booting');window.setTimeout(function(){root.classList.remove('trace-booting');},${TRACE_BOOT_DURATION_MS});}catch(error){}})();`;
 
 function NoConnect({ x, y }: { x: number; y: number }) {
   return <g className="no-connect"><path d={`M${x-5} ${y-5}L${x+5} ${y+5}M${x+5} ${y-5}L${x-5} ${y+5}`}/></g>;
@@ -113,17 +114,17 @@ export function PcbExplorer() {
 
   useEffect(() => {
     const resetInteractionState = () => {
-      document.documentElement.classList.remove('powering-up');
+      document.documentElement.classList.remove('trace-booting');
       setActive(null);
       setHovered(null);
     };
 
     window.addEventListener('pageshow', resetInteractionState);
-    const safetyTimer = window.setTimeout(() => document.documentElement.classList.remove('powering-up'), POWER_UP_DURATION_MS + 150);
+    const safetyTimer = window.setTimeout(() => document.documentElement.classList.remove('trace-booting'), TRACE_BOOT_DURATION_MS + 150);
     return () => {
       window.clearTimeout(safetyTimer);
       window.removeEventListener('pageshow', resetInteractionState);
-      document.documentElement.classList.remove('powering-up');
+      document.documentElement.classList.remove('trace-booting');
     };
   }, []);
 
@@ -134,16 +135,13 @@ export function PcbExplorer() {
 
   const openItem = (item: PortfolioItem) => {
     if (active) return;
-    document.documentElement.classList.remove('powering-up');
+    document.documentElement.classList.remove('trace-booting');
     setActive(item.slug);
     prefetchItem(item);
     window.setTimeout(() => window.location.assign(itemPath(item)), ROUTE_NAVIGATION_MS);
   };
 
-  const transitionItem = active ? portfolioItems.find((item) => item.slug === active) : undefined;
-  const transitionLayout = transitionItem ? symbolLayouts[transitionItem.slug] : undefined;
-
-  return <><script dangerouslySetInnerHTML={{ __html: POWER_UP_BOOT_SCRIPT }}/><main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
+  return <><script dangerouslySetInnerHTML={{ __html: TRACE_BOOT_SCRIPT }}/><main className={`pcb-shell schematic-shell ${active ? 'routing' : ''}`}>
     <header className="pcb-topbar schematic-topbar">
       <a href={sitePath('/')} className="pcb-brand schematic-brand"><span className="logo-chip">BL</span><span><b>BRANDON LUO</b><small>ELECTRICAL AND COMPUTER ENGINEERING</small></span></a>
       <p><span className="live-dot"/>SCHEMATIC <b>REV 8.8</b></p>
@@ -167,28 +165,28 @@ export function PcbExplorer() {
             <Connector/>
 
             <g className="signal-nets">
-              <path pathLength="1" d="M105 115H170M105 135H170"/>
-              <path pathLength="1" d="M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470"/>
+              <path d="M105 115H170M105 135H170"/>
+              <path d="M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470"/>
               <HorizontalResistor x={150} y={205} refName="R1" active={active === 'spacex'}/><HorizontalResistor x={195} y={225} refName="R2" labelSide active={active === 'spacex'}/>
               <text className="net-label" x="375" y="198">ETH_P</text><text className="net-label" x="375" y="218">ETH_N</text>
 
-              <path pathLength="1" d="M105 245H850M105 275H850M105 305H850M105 335H850"/>
+              <path d="M105 245H850M105 275H850M105 305H850M105 335H850"/>
               <text className="net-label" x="760" y="238">SCLK</text><text className="net-label" x="760" y="268">MOSI</text><text className="net-label" x="760" y="298">MISO</text><text className="net-label" x="760" y="328">CS</text>
 
-              <path pathLength="1" d="M105 395H930M105 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
+              <path d="M105 395H930M105 415H930M245 395V420M295 415V420M495 395V420M545 415V420M750 395V420M800 415V420"/>
               <VerticalResistor x={930} y={405} refName="R3" labelSide="left" active={active !== null && ['yellow-jacket-space-program','personal-projects','the-hive'].includes(active)}/>
               <text className="net-label" x="840" y="389">CAN_H</text><text className="net-label" x="840" y="432">CAN_L</text>
             </g>
 
             <g className="support-circuits">
-              <path className="wire" pathLength="1" d="M240 75V45H380M300 81H380M540 75V45H700M600 81H700"/>
+              <path className="wire" d="M240 75V45H380M300 81H380M540 75V45H700M600 81H700"/>
               <PowerSymbol x={240} y={45} label="3V3"/><Capacitor x={380} y={63} refName="C1"/><GroundSymbol x={380} y={93}/>
               <PowerSymbol x={540} y={45} label="3V3"/><Capacitor x={700} y={63} refName="C2"/><GroundSymbol x={700} y={93}/>
 
-              <path className="wire" pathLength="1" d="M940 198V168H1110M1000 204H1110"/>
+              <path className="wire" d="M940 198V168H1110M1000 204H1110"/>
               <PowerSymbol x={940} y={168} label="3V3"/><Capacitor x={1110} y={186} refName="C3"/><GroundSymbol x={1110} y={216}/>
 
-              <path className="wire" pathLength="1" d="M130 560H835M375 505V530M620 505V530M880 505V530"/>
+              <path className="wire" d="M130 560H835M375 505V530M620 505V530M880 505V530"/>
               <PowerSymbol x={130} y={560} label="3V3"/>
               <Capacitor x={330} y={578} refName="C4"/><GroundSymbol x={330} y={608}/>
               <Capacitor x={580} y={578} refName="C5"/><GroundSymbol x={580} y={608}/>
@@ -199,26 +197,12 @@ export function PcbExplorer() {
             {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) prefetchItem(item);}}/>)}
 
             <g className="active-nets" aria-hidden="true">{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
+            <g className="active-nets startup-nets" aria-hidden="true"><path className="trace-live startup-trace" pathLength="1" d={TRACE_BOOT_PATH}/></g>
           </svg>
-
-          {transitionItem && transitionLayout && <div
-            className="sheet-transition-ic"
-            aria-hidden="true"
-            style={{
-              left: `${((transitionLayout.cx - transitionLayout.width / 2) / 1280) * 100}%`,
-              top: `${((transitionLayout.cy - transitionLayout.height / 2) / 660) * 100}%`,
-              width: `${(transitionLayout.width / 1280) * 100}%`,
-              height: `${(transitionLayout.height / 660) * 100}%`
-            }}
-          >
-            <span>{transitionItem.ref}</span>
-            <strong>{transitionLayout.titleLines.map((line) => <i key={line}>{line}</i>)}</strong>
-            {Array.from({ length: 6 }, (_, index) => <b key={index}/>) }
-          </div>}
         </div>
       </div>
       <div className="board-legend schematic-legend"><span><i className="legend-line"/> SIGNAL NET</span><span><i className="legend-dot"/> CLICKABLE COMPONENT</span><span><i className="legend-nc">×</i> NO CONNECT</span></div>
-      {active&&<div className="routing-status schematic-status" role="status"><span>HIGHLIGHTING NET</span><b>{transitionItem?.shortTitle}</b><i/></div>}
+      {active&&<div className="routing-status schematic-status" role="status"><span>HIGHLIGHTING NET</span><b>{portfolioItems.find((item)=>item.slug===active)?.shortTitle}</b><i/></div>}
     </section>
   </main></>;
 }
