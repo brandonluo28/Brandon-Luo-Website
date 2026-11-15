@@ -25,9 +25,16 @@ const activePaths: Record<string, string> = {
 };
 
 const ROUTE_NAVIGATION_MS = 650;
-const TRACE_BOOT_DURATION_MS = 950;
-const TRACE_BOOT_PATH = `${activePaths['beta-technologies']}${activePaths.spacex}${activePaths['about-me']}M105 395H930M105 415H930M245 395V444M295 415V444M495 395V444M545 415V444M750 395V444M800 415V444`;
-const TRACE_BOOT_SCRIPT = `(function(){try{var root=document.documentElement;var key='bl-trace-boot-v1';if(window.matchMedia('(prefers-reduced-motion: reduce)').matches||window.sessionStorage.getItem(key)){return;}window.sessionStorage.setItem(key,'1');root.classList.add('trace-booting');window.setTimeout(function(){root.classList.remove('trace-booting');},${TRACE_BOOT_DURATION_MS});}catch(error){}})();`;
+const TRACE_BOOT_DURATION_MS = 2400;
+const startupPaths = [
+  { id: 'beta', d: activePaths['beta-technologies'] },
+  { id: 'spacex-input', d: 'M105 205H130M105 225H175' },
+  { id: 'spacex-output', d: 'M170 205H450V115H494M215 225H460V135H494' },
+  { id: 'about', d: activePaths['about-me'] },
+  { id: 'can-bus', d: 'M105 395H930M105 415H930' },
+  { id: 'can-branches', d: 'M245 395V444M295 415V444M495 395V444M545 415V444M750 395V444M800 415V444' }
+];
+const TRACE_BOOT_SCRIPT = `(function(){try{var root=document.documentElement;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}root.classList.add('trace-booting');window.setTimeout(function(){root.classList.remove('trace-booting');},${TRACE_BOOT_DURATION_MS});}catch(error){}})();`;
 
 function NoConnect({ x, y }: { x: number; y: number }) {
   return <g className="no-connect"><path d={`M${x-5} ${y-5}L${x+5} ${y+5}M${x+5} ${y-5}L${x-5} ${y+5}`}/></g>;
@@ -46,11 +53,11 @@ function Capacitor({ x, y, refName }: { x: number; y: number; refName: string })
 }
 
 function HorizontalResistor({ x, y, refName, labelSide = false, active = false }: { x: number; y: number; refName: string; labelSide?: boolean; active?: boolean }) {
-  return <g className={`resistor-symbol${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M-20 0L-16-9L-8 9L0-9L8 9L16-9L20 0"/><text x={labelSide ? 27 : 0} y={labelSide ? 3 : -14} textAnchor={labelSide ? 'start' : 'middle'}>{refName}</text></g>;
+  return <g className={`resistor-symbol resistor-${refName.toLowerCase()}${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M-20 0L-16-9L-8 9L0-9L8 9L16-9L20 0"/><text x={labelSide ? 27 : 0} y={labelSide ? 3 : -14} textAnchor={labelSide ? 'start' : 'middle'}>{refName}</text></g>;
 }
 
 function VerticalResistor({ x, y, refName, labelSide = 'right', active = false }: { x: number; y: number; refName: string; labelSide?: 'left' | 'right'; active?: boolean }) {
-  return <g className={`resistor-symbol${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M0-10L-8-7L8-2L-8 3L8 8L0 10"/><text x={labelSide === 'right' ? 15 : -15} y="3" textAnchor={labelSide === 'right' ? 'start' : 'end'}>{refName}</text></g>;
+  return <g className={`resistor-symbol resistor-${refName.toLowerCase()}${active ? ' active' : ''}`} transform={`translate(${x} ${y})`}><path d="M0-10L-8-7L8-2L-8 3L8 8L0 10"/><text x={labelSide === 'right' ? 15 : -15} y="3" textAnchor={labelSide === 'right' ? 'start' : 'end'}>{refName}</text></g>;
 }
 
 function Connector() {
@@ -113,18 +120,31 @@ export function PcbExplorer() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   useEffect(() => {
-    const resetInteractionState = () => {
-      document.documentElement.classList.remove('trace-booting');
+    const root = document.documentElement;
+    let replayTimer: number | undefined;
+
+    const startTraceBoot = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      root.classList.remove('trace-booting');
+      void root.offsetWidth;
+      root.classList.add('trace-booting');
+      if (replayTimer) window.clearTimeout(replayTimer);
+      replayTimer = window.setTimeout(() => root.classList.remove('trace-booting'), TRACE_BOOT_DURATION_MS);
+    };
+
+    const resetInteractionState = (event: PageTransitionEvent) => {
       setActive(null);
       setHovered(null);
+      if (event.persisted) startTraceBoot();
     };
 
     window.addEventListener('pageshow', resetInteractionState);
-    const safetyTimer = window.setTimeout(() => document.documentElement.classList.remove('trace-booting'), TRACE_BOOT_DURATION_MS + 150);
+    const safetyTimer = window.setTimeout(() => root.classList.remove('trace-booting'), TRACE_BOOT_DURATION_MS + 150);
     return () => {
       window.clearTimeout(safetyTimer);
+      if (replayTimer) window.clearTimeout(replayTimer);
       window.removeEventListener('pageshow', resetInteractionState);
-      document.documentElement.classList.remove('trace-booting');
+      root.classList.remove('trace-booting');
     };
   }, []);
 
@@ -197,7 +217,7 @@ export function PcbExplorer() {
             {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) prefetchItem(item);}}/>)}
 
             <g className="active-nets" aria-hidden="true">{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
-            <g className="active-nets startup-nets" aria-hidden="true"><path className="trace-live startup-trace" pathLength="1" d={TRACE_BOOT_PATH}/></g>
+            <g className="active-nets startup-nets" aria-hidden="true">{startupPaths.map((path)=><path key={path.id} className={`trace-live startup-trace startup-${path.id}`} pathLength="1" d={path.d}/>)}</g>
           </svg>
         </div>
       </div>
