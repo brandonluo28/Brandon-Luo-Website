@@ -16,12 +16,12 @@ const symbolLayouts: Record<string, SymbolLayout> = {
 };
 
 const activePaths: Record<string, string> = {
-  'beta-technologies': 'M105 115H170M105 135H170',
-  spacex: 'M105 205H130M170 205H450V115H470M105 225H175M215 225H460V135H470',
-  'about-me': 'M105 245H850M105 275H850M105 305H850M105 335H850',
-  'yellow-jacket-space-program': 'M105 395H930M105 415H930M245 395V420M295 415V420',
-  'personal-projects': 'M105 395H930M105 415H930M495 395V420M545 415V420',
-  'the-hive': 'M105 395H930M105 415H930M750 395V420M800 415V420'
+  'beta-technologies': 'M105 115H194M105 135H194',
+  spacex: 'M105 205H130M170 205H450V115H494M105 225H175M215 225H460V135H494',
+  'about-me': 'M105 245H874M105 275H874M105 305H874M105 335H874',
+  'yellow-jacket-space-program': 'M105 395H930M105 415H930M245 395V444M295 415V444',
+  'personal-projects': 'M105 395H930M105 415H930M495 395V444M545 415V444',
+  'the-hive': 'M105 395H930M105 415H930M750 395V444M800 415V444'
 };
 
 const ROUTE_NAVIGATION_MS = 650;
@@ -84,12 +84,12 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
     <text className="ic-ref" x={left + 12} y={top + 24}>{item.ref}</text>
     <text className="ic-title" x={layout.cx} y={layout.cy - (layout.titleLines.length - 1) * 8} textAnchor="middle">{layout.titleLines.map((line,index)=><tspan key={line} x={layout.cx} dy={index ? 18 : 0}>{line}</tspan>)}</text>
 
-    {connectedLeftPinYs.map((y,index)=><g className="ic-pin signal-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
+    {connectedLeftPinYs.map((y,index)=><g className="ic-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
     {noConnectYs.map((y,index)=><g className="ic-pin" key={`nc-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{isBottomBusDevice ? 5 : connectedLeftPinYs.length + index + 1}</text><NoConnect x={right+20} y={y}/></g>)}
 
     {isBottomBusDevice ? <>
-      <g className="ic-pin signal-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>1</text></g>
-      <g className="ic-pin signal-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>2</text></g>
+      <g className="ic-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>1</text></g>
+      <g className="ic-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>2</text></g>
       <g className="ic-pin"><path d={`M${layout.cx} ${bottom}V560`}/><text x={layout.cx+4} y={bottom-5}>3</text></g>
       <g className="ic-pin"><path d={`M${right} ${rightGroundY}H${rightGroundX}`}/><text x={right-5} y={rightGroundY-3} textAnchor="end">4</text></g>
     </> : <>
@@ -151,6 +151,7 @@ export function PcbExplorer() {
           </div>
 
           <svg className="schematic-drawing" viewBox="0 0 1280 660" preserveAspectRatio="none" aria-label="Interactive top-level portfolio schematic">
+            <defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
             <Connector/>
 
             <g className="signal-nets">
@@ -183,9 +184,9 @@ export function PcbExplorer() {
               <GroundSymbol x={375} y={542}/><GroundSymbol x={620} y={542}/><GroundSymbol x={880} y={542}/>
             </g>
 
-            <g className="active-nets"><defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
-
             {portfolioItems.map((item)=><IcSymbol key={item.slug} item={item} hovered={hovered===item.slug} active={active===item.slug} onOpen={()=>openItem(item)} onHover={(value)=>{setHovered(value ? item.slug : null);if(value) prefetchItem(item);}}/>)}
+
+            <g className="active-nets" aria-hidden="true">{portfolioItems.map((item)=><path key={item.slug} className={`trace-live ${active===item.slug?'active':''}`} pathLength="1" d={activePaths[item.slug]}/>)}</g>
           </svg>
         </div>
       </div>
