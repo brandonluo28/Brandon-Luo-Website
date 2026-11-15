@@ -84,12 +84,12 @@ function IcSymbol({ item, hovered, active, onOpen, onHover }: { item: PortfolioI
     <text className="ic-ref" x={left + 12} y={top + 24}>{item.ref}</text>
     <text className="ic-title" x={layout.cx} y={layout.cy - (layout.titleLines.length - 1) * 8} textAnchor="middle">{layout.titleLines.map((line,index)=><tspan key={line} x={layout.cx} dy={index ? 18 : 0}>{line}</tspan>)}</text>
 
-    {connectedLeftPinYs.map((y,index)=><g className="ic-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
+    {connectedLeftPinYs.map((y,index)=><g className="ic-pin signal-pin" key={`left-${y}`}><path d={`M${left-20} ${y}H${left}`}/><text x={left + 5} y={y - 3}>{index + 1}</text></g>)}
     {noConnectYs.map((y,index)=><g className="ic-pin" key={`nc-${y}`}><path d={`M${right} ${y}H${right+20}`}/><text x={right - 5} y={y - 3} textAnchor="end">{isBottomBusDevice ? 5 : connectedLeftPinYs.length + index + 1}</text><NoConnect x={right+20} y={y}/></g>)}
 
     {isBottomBusDevice ? <>
-      <g className="ic-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>1</text></g>
-      <g className="ic-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>2</text></g>
+      <g className="ic-pin signal-pin"><path d={`M${canPinXs[0]} ${top-20}V${top}`}/><text x={canPinXs[0]+4} y={top+12}>1</text></g>
+      <g className="ic-pin signal-pin"><path d={`M${canPinXs[1]} ${top-20}V${top}`}/><text x={canPinXs[1]+4} y={top+12}>2</text></g>
       <g className="ic-pin"><path d={`M${layout.cx} ${bottom}V560`}/><text x={layout.cx+4} y={bottom-5}>3</text></g>
       <g className="ic-pin"><path d={`M${right} ${rightGroundY}H${rightGroundX}`}/><text x={right-5} y={rightGroundY-3} textAnchor="end">4</text></g>
     </> : <>
