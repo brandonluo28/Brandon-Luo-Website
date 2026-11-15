@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@view-transition{navigation:auto}
+
 :root{--bench:#070b0a;--board:#0b5f43;--board-dark:#063d2c;--board-light:#0d7852;--copper:#d6a85f;--gold:#e6c780;--silk:#e8ead7;--ink:#edf1e6;--muted:#8f9e95;--line:#28332e;--chip:#151918;--mono:'Courier New',monospace;color-scheme:dark}
 *{box-sizing:border-box}html{background:var(--bench);scroll-behavior:smooth}body{margin:0;background:var(--bench);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55}a{color:inherit;text-decoration:none}button{font:inherit}a,button{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:5px}::selection{background:var(--gold);color:#08100c}h1,h2,p{margin:0}img{display:block;max-width:100%}.pcb-shell{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 50%,#17221e 0,#0b100e 48%,#050807 100%);position:relative}.pcb-shell:before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.24;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,#000,transparent 82%)}
 .pcb-topbar,.detail-header{height:82px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 34px;position:relative;z-index:20;background:#070b0ade}.pcb-brand{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.82rem;letter-spacing:.05em}.pcb-brand small{display:block;color:var(--muted);font-size:.72rem;margin-top:2px}.logo-chip{width:38px;height:38px;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;position:relative}.logo-chip:before,.logo-chip:after{content:'';position:absolute;left:-5px;right:-5px;top:6px;bottom:6px;border-left:4px dotted var(--gold);border-right:4px dotted var(--gold)}.pcb-topbar>p{font-family:var(--mono);font-size:.76rem;color:var(--muted);letter-spacing:.04em}.pcb-topbar>p b{color:var(--gold);font-weight:400;margin-left:10px}.live-dot{width:7px;height:7px;border-radius:50%;background:#78dc9b;display:inline-block;margin-right:9px;box-shadow:0 0 10px #78dc9b}.board-links{display:flex;gap:22px;font-family:var(--mono);font-size:.76rem}.board-links a:hover{color:var(--gold)}
@@ -47,6 +49,40 @@
 /* Revision 4.1: one coordinate system for exact pin-to-net alignment */
 .schematic-drawing{position:absolute;inset:0;width:100%;height:100%;z-index:2;overflow:visible}.schematic-drawing path,.schematic-drawing rect,.schematic-drawing circle{vector-effect:non-scaling-stroke}.svg-connector rect{fill:#fffdf5;stroke:var(--paper-ink);stroke-width:1.4}.svg-connector path,.signal-nets>path,.support-circuits .wire{fill:none;stroke:var(--paper-net);stroke-width:1.6;stroke-linecap:square;stroke-linejoin:miter}.svg-connector text{fill:var(--paper-frame);font:400 8px var(--mono)}.signal-nets .resistor-symbol path{fill:none;stroke:var(--paper-net);stroke-width:1.6;stroke-linejoin:miter}.signal-nets .resistor-symbol text,.support-circuits .capacitor-symbol text,.support-circuits .power-symbol text{fill:var(--paper-frame);font:400 9px var(--mono)}.net-label{fill:var(--paper-blue);font:400 8px var(--mono);paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round}.support-circuits .capacitor-symbol path,.support-circuits .ground-symbol path,.support-circuits .power-symbol path{fill:none;stroke:var(--paper-net);stroke-width:1.55;stroke-linecap:square;stroke-linejoin:miter}
 .schematic-component{cursor:pointer;outline:none}.schematic-component .ic-body{fill:#fff5b8;stroke:var(--paper-net);stroke-width:1.6}.schematic-component .pin-one{fill:none;stroke:var(--paper-net);stroke-width:1.3}.schematic-component .ic-pin>path{fill:none;stroke:var(--paper-net);stroke-width:1.6;stroke-linecap:square}.schematic-component .ic-pin>text,.schematic-component .ic-ref{fill:var(--paper-frame);font:400 7px var(--mono)}.schematic-component .ic-title{fill:var(--paper-ink);font:500 12px Arial,Helvetica,sans-serif}.schematic-component:hover .ic-body,.schematic-component:focus-visible .ic-body,.schematic-component.selected .ic-body{fill:#ffef96;stroke:var(--paper-blue);stroke-width:2.2}.schematic-component:focus-visible .ic-body{stroke-dasharray:4 3}.no-connect path{fill:none!important;stroke:#c63737!important;stroke-width:1.8!important}.svg-tooltip{pointer-events:none}.svg-tooltip rect{fill:#fffdf5;stroke:var(--paper-blue);stroke-width:1.2}.svg-tooltip .tooltip-ref{fill:var(--paper-frame);font:400 8px var(--mono)}.svg-tooltip .tooltip-title{fill:var(--paper-ink);font:600 10px Arial,Helvetica,sans-serif}.active-nets{pointer-events:none}.active-nets .trace-live{fill:none;stroke:#d66f22;stroke-width:4;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;filter:url(#trace-glow)}.active-nets .trace-live.active{opacity:1;animation:route-trace .55s ease-out forwards}.signal-nets .resistor-symbol path,.signal-nets .resistor-symbol text{transition:stroke .18s,fill .18s}.signal-nets .resistor-symbol.active path{stroke:#d66f22;stroke-width:4;filter:url(#trace-glow)}.signal-nets .resistor-symbol.active text{fill:#d66f22;font-weight:600}.routing .schematic-component:not(.selected),.routing .signal-nets>*,.routing .support-circuits{opacity:.43;transition:opacity .18s}.routing .signal-nets>.resistor-symbol.active{opacity:1}.legend-nc{color:#c63737;font-size:1rem;line-height:1}.sheet-title-block{width:20%;min-width:205px}
+
+/* A box-based clone gives the browser a reliable shared element to morph from the SVG sheet into a detail-page IC. */
+.sheet-transition-ic{position:absolute;z-index:13;pointer-events:none;display:grid;place-items:center;border:2px solid var(--paper-blue);background:#ffef96;color:var(--paper-ink);font-family:var(--mono);opacity:0;animation:transition-ic-ready .14s .46s ease-out both;view-transition-name:portfolio-ic;box-shadow:0 8px 20px #594b3e22}
+.sheet-transition-ic>span{position:absolute;left:7%;top:8%;font-size:clamp(.35rem,.55vw,.55rem);color:var(--paper-frame)}
+.sheet-transition-ic>strong{display:flex;flex-direction:column;align-items:center;font:700 clamp(.55rem,1vw,.9rem) Arial,Helvetica,sans-serif;line-height:1.12;text-align:center}
+.sheet-transition-ic>strong i{font-style:normal}
+.sheet-transition-ic>b{position:absolute;width:7%;height:2px;background:var(--paper-net)}
+.sheet-transition-ic>b:nth-of-type(1){left:-7%;top:25%}.sheet-transition-ic>b:nth-of-type(2){left:-7%;top:50%}.sheet-transition-ic>b:nth-of-type(3){left:-7%;top:75%}.sheet-transition-ic>b:nth-of-type(4){right:-7%;top:25%}.sheet-transition-ic>b:nth-of-type(5){right:-7%;top:50%}.sheet-transition-ic>b:nth-of-type(6){right:-7%;top:75%}
+.routing .schematic-component.selected{animation:transition-source-hide .14s .46s ease-out both}
+.detail-component.component-ic{view-transition-name:portfolio-ic}
+::view-transition-group(portfolio-ic){z-index:100;animation-duration:.48s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-image-pair(portfolio-ic){isolation:auto}
+::view-transition-old(portfolio-ic),::view-transition-new(portfolio-ic){mix-blend-mode:normal}
+::view-transition-old(root){animation:page-sheet-out .24s ease-out both}
+::view-transition-new(root){animation:page-sheet-in .34s .06s ease-out both}
+
+/* First homepage visit: energize power, bring ICs online, then reveal the data nets in under one second. */
+.powering-up .support-circuits .wire{stroke-dasharray:1;stroke-dashoffset:1;animation:power-rail-draw .22s .04s ease-out both}
+.powering-up .support-circuits>:not(.wire){animation:power-symbol-online .2s .08s ease-out both}
+.powering-up .schematic-component{transform-box:fill-box;transform-origin:center;animation:ic-power-online .2s .28s ease-out both}
+.powering-up .signal-nets>path{stroke-dasharray:1;stroke-dashoffset:1;animation:signal-net-draw .28s .5s ease-out both}
+.powering-up .signal-nets>.resistor-symbol,.powering-up .signal-nets>.net-label{animation:signal-label-online .2s .56s ease-out both}
+.powering-up .schematic-topbar .live-dot{animation:status-led-online .14s .74s ease-out both}
+
+@keyframes transition-ic-ready{from{opacity:0}to{opacity:1}}
+@keyframes transition-source-hide{from{opacity:1}to{opacity:0}}
+@keyframes page-sheet-out{to{opacity:.35}}
+@keyframes page-sheet-in{from{opacity:0}to{opacity:1}}
+@keyframes power-rail-draw{0%{stroke-dashoffset:1;opacity:.18;filter:none}72%{opacity:1;filter:drop-shadow(0 0 4px #17814f)}100%{stroke-dashoffset:0;opacity:1;filter:none}}
+@keyframes power-symbol-online{from{opacity:.12;filter:grayscale(1)}70%{opacity:1;filter:drop-shadow(0 0 3px #17814f)}to{opacity:1;filter:none}}
+@keyframes ic-power-online{from{opacity:.16;transform:scale(.985);filter:grayscale(1)}70%{opacity:1;filter:drop-shadow(0 0 3px #d6a85f)}to{opacity:1;transform:scale(1);filter:none}}
+@keyframes signal-net-draw{from{stroke-dashoffset:1;opacity:.18}to{stroke-dashoffset:0;opacity:1}}
+@keyframes signal-label-online{from{opacity:0}to{opacity:1}}
+@keyframes status-led-online{from{opacity:0;transform:scale(.3);box-shadow:none}to{opacity:1;transform:scale(1);box-shadow:0 0 8px var(--paper-net)}}
 
 /* Keep the detail-sheet navigation rail separate from the article column. */
 .detail-shell{background:#f5f5f2}.detail-shell .detail-trace{left:0;top:82px;bottom:0;width:72px;padding:22px 0;background:#dedfdb;border-right:1px solid var(--line)}.detail-shell .detail-page{width:min(1120px,calc(100% - 190px));margin-left:max(110px,calc((100% - 1120px)/2));margin-right:auto}.detail-shell .detail-footer{padding-left:max(110px,calc((100% - 1120px)/2))}
@@ -109,6 +145,7 @@
   .sheet-title-block>div{padding:2px 3px;gap:3px;font-size:.36rem}
   .detail-media,.detail-media-spacex{grid-template-columns:1fr;padding:42px 0}
   .detail-media-copy{grid-column:auto}
+  .sheet-transition-ic{display:none}
 }
 
 /* Purpose-built detail layouts for the individual portfolio sheets. */
@@ -171,6 +208,12 @@
   .about-gallery.about-gallery>.about-portrait img{min-height:0;aspect-ratio:3/4}
   .hive-tools-row{grid-template-columns:1fr;padding:42px 0}
   .hive-tools-row img{min-height:0;aspect-ratio:16/10}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .sheet-transition-ic{display:none!important}
+  .routing .schematic-component.selected{animation:none!important;opacity:1}
+  ::view-transition-group(portfolio-ic),::view-transition-old(portfolio-ic),::view-transition-new(portfolio-ic),::view-transition-old(root),::view-transition-new(root){animation-duration:.01ms!important;animation-delay:0s!important}
 }
 
 /* Detail hierarchy and image focal-point refinements. */
