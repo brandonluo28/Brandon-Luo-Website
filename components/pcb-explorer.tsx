@@ -186,7 +186,7 @@ export function PcbExplorer() {
           </div>
 
           <svg className="schematic-drawing" viewBox="0 0 1280 660" preserveAspectRatio="none" aria-label="Interactive top-level portfolio schematic">
-            <defs><filter id="trace-glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+            <defs><filter id="trace-glow" filterUnits="userSpaceOnUse" x="-20" y="-20" width="1320" height="700"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
             <Connector/>
 
             <g className="signal-nets">
