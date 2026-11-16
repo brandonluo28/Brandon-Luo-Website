@@ -24,7 +24,7 @@ const activePaths: Record<string, string> = {
   'the-hive': 'M105 395H930M105 415H930M750 395V444M800 415V444'
 };
 
-const ROUTE_NAVIGATION_MS = 650;
+const ROUTE_NAVIGATION_MS = 420;
 const TRACE_BOOT_DURATION_MS = 2400;
 const startupPaths = [
   { id: 'beta', d: activePaths['beta-technologies'] },
@@ -163,6 +163,10 @@ export function PcbExplorer() {
     document.documentElement.classList.remove('trace-booting');
     setActive(item.slug);
     prefetchItem(item);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.location.assign(itemPath(item));
+      return;
+    }
     window.setTimeout(() => window.location.assign(itemPath(item)), ROUTE_NAVIGATION_MS);
   };
 
