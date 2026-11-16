@@ -32,7 +32,12 @@ const startupPaths = [
   { id: 'spacex-output', d: 'M170 205H450V115H494M215 225H460V135H494' },
   { id: 'about', d: activePaths['about-me'] },
   { id: 'can-bus', d: 'M105 395H930M105 415H930' },
-  { id: 'can-branches', d: 'M245 395V444M295 415V444M495 395V444M545 415V444M750 395V444M800 415V444' }
+  { id: 'can-yjsp-h', d: 'M245 395V444' },
+  { id: 'can-yjsp-l', d: 'M295 415V444' },
+  { id: 'can-projects-h', d: 'M495 395V444' },
+  { id: 'can-projects-l', d: 'M545 415V444' },
+  { id: 'can-hive-h', d: 'M750 395V444' },
+  { id: 'can-hive-l', d: 'M800 415V444' }
 ];
 const TRACE_BOOT_SCRIPT = `(function(){try{var root=document.documentElement;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}root.classList.add('trace-booting');window.setTimeout(function(){root.classList.remove('trace-booting');},${TRACE_BOOT_DURATION_MS});}catch(error){}})();`;
 
